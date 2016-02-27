@@ -8,6 +8,10 @@ php:
 services:
   - mysql
 
+addons:
+  code_climate:
+    repo_token: 29bdd2d5a09282d8ef60265cdcf448dfc36d3177f2d065805bd03af4b5651b7b
+
 before_install:
   - composer self-update
 
@@ -21,6 +25,7 @@ before_script:
 
 script:
   - phpunit --stderr --configuration phpunit.xml --debug
+  - phpunit --coverage-clover build/logs/clover.xml
   - vendor/bin/phpcs --standard=psr2 app/
   - vendor/bin/phpcpd --verbose app/
   - vendor/bin/phpmd app/ text codesize,unusedcode,naming,design

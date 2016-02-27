@@ -1,0 +1,20 @@
+engines:
+  phpcodesniffer:
+    enabled: true
+  phpmd:
+    enabled: true
+  fixme:
+    enabled: true
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - php
+ratings:
+   paths:
+   - app/**
+   - "**.php"
+exclude_paths:
+- "bootstrap/*"
+- "config/*"
+- "database/*"
