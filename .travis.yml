@@ -16,14 +16,14 @@ before_install:
   - composer self-update
 
 install:
-  - composer install --prefer-source --no-interaction --dev
+  - composer install --prefer-source --no-interaction
 
 before_script:
   - mysql -e 'create database tpms;'
   - mv .env.example .env
   - php artisan migrate:refresh --seed --force
 
-script: #again
+script:
   - phpunit --stderr --configuration phpunit.xml --debug
   - phpunit --coverage-clover build/logs/clover.xml
   - ./vendor/bin/test-reporter
