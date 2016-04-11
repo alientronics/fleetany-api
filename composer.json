@@ -4,11 +4,31 @@
     "keywords": ["alientronics", "fleetany", "api"],
     "license": "AGPL-3.0",
     "type": "project",
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "version": "dev-master",
+                "name": "alientronics/fleetany-web",
+                "source": {
+                    "url": "https://github.com/alientronics/fleetany-web.git",
+                    "type": "git",
+                    "reference": "master"
+                }
+            }
+        }
+    ],
     "require": {
         "php": ">=5.5.9",
         "laravel/lumen-framework": "5.2.*",
         "vlucas/phpdotenv": "~2.2",
-        "mlntn/lumen-artisan-serve": "~1"
+        "mlntn/lumen-artisan-serve": "~1",
+        "alientronics/fleetany-web": "dev-master",
+        "prettus/l5-repository": "dev-master",
+        "doctrine/dbal": "v2.4.2",
+        "kodeine/laravel-acl": "dev-master",
+        "prettus/laravel-validation": "1.1.*",
+        "caouecs/laravel4-lang": "~2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -23,12 +43,16 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/"
-        }
+        },
+        "classmap": [
+            "vendor/alientronics/fleetany-web/app/Entities/",
+            "vendor/alientronics/fleetany-web/app/Repositories/"
+        ]
     },
     "autoload-dev": {
         "classmap": [
             "tests/",
-            "database/"
+            "vendor/alientronics/fleetany-web/database/"
         ]
     }
 }

@@ -27,4 +27,7 @@ $app->group(['prefix' => 'api/v1','namespace' => 'App\Http\Controllers', 'middle
       
     //$app->delete('company/{id}','CompanyController@deleteCompany');
 
+    $app->get('user', 'UserController@index');
+    $app->get('user/{email}', 'UserController@findOrCreateUser');
+
 });

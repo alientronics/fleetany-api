@@ -17,3 +17,10 @@ $factory->define(App\Company::class, function ($faker) {
         'api_token' => $faker->name,
     ];
 });
+
+$factory->define(App\Entities\User::class, function ($faker) {
+    return [
+        'name' => $faker->name,
+        'api_token' => $faker->name,
+    ];
+});
