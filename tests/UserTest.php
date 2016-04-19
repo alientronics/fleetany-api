@@ -44,7 +44,6 @@ class UserTest extends TestCase
 
     public function testUserPostSuccess()
     {
-
         $company = factory('App\Company')->create();
 
         $this->actingAs($company)
