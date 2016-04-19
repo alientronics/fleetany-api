@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Entities\User;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Entities\Vehicle;
 
 class UserController extends Controller
 {
@@ -31,16 +31,20 @@ class UserController extends Controller
     {
         $authUser = User::where('email', $email)->first();
         if ($authUser) {
-            return $authUser;
+            $vehicles = Vehicle::where('company_id', $authUser->company_id)->get();
+        } else {
+            $newUser = new User([
+                'name' => explode("@", $email)[0],
+                'email' => $email,
+                'contact_id' => 1,
+            ]);
+            $newUser->save();
+    
+            $newUser->setUp();
+    
+            $vehicles = Vehicle::where('company_id', $newUser->company_id)->get();
         }
-        $newUser = new User([
-            'name' => explode("@", $email)[0],
-            'email' => $email,
-            'contact_id' => 1,
-        ]);
-        $newUser->save();
         
-        $newUser->setUp();
-        return $newUser;
+        return response()->json($vehicles);
     }
 }
