@@ -28,6 +28,6 @@ $app->group(['prefix' => 'api/v1','namespace' => 'App\Http\Controllers', 'middle
     //$app->delete('company/{id}','CompanyController@deleteCompany');
 
     $app->get('user', 'UserController@index');
-    $app->put('user/{email}', 'UserController@findOrCreateUser');
+    $app->post('user', 'UserController@findOrCreateUser');
 
 });

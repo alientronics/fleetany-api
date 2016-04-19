@@ -4,20 +4,6 @@ use Laravel\Lumen\Testing\DatabaseTransactions;
 
 class UserTest extends TestCase
 {
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testPingApi()
-    {
-        $this->get('/');
-
-        $this->assertEquals(
-            $this->response->getContent(), $this->app->version()
-        );
-    }
-
     public function testUserGetFail()
     {
         $this->get('/api/v1/user');
@@ -36,7 +22,7 @@ class UserTest extends TestCase
 
     public function testUserPostFail()
     {
-        $this->put('/api/v1/user/testeapi@alientronics.com.br');
+        $this->post('/api/v1/user', ['api_token' => 'OTscjZ19F', 'email' => 'testeapi@alientronics.com.br']);
 
         $this->assertEquals($this->response->status(), 401);
 
@@ -47,7 +33,7 @@ class UserTest extends TestCase
         $company = factory('App\Company')->create();
 
         $this->actingAs($company)
-            ->put('/api/v1/user/testeapi@alientronics.com.br')
+            ->post('/api/v1/user', ['api_token' => 'OTscjZ19F', 'email' => 'testeapi@alientronics.com.br'])
             ->seeJson([
                 'email' => 'testeapi@alientronics.com.br',
             ]);
