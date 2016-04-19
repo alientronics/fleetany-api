@@ -30,4 +30,10 @@ $app->group(['prefix' => 'api/v1','namespace' => 'App\Http\Controllers', 'middle
     $app->get('user', 'UserController@index');
     $app->post('user', 'UserController@findOrCreateUser');
 
+    $app->get('trip', 'TripController@index');
+    $app->post('trip', 'TripController@create');
+
+    $app->get('gps', 'GpsController@index');
+    $app->post('gps', 'GpsController@create');
+
 });
