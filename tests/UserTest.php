@@ -1,6 +1,7 @@
 <?php
 
 use Laravel\Lumen\Testing\DatabaseTransactions;
+use App\Entities\User;
 
 class UserTest extends TestCase
 {
@@ -30,10 +31,11 @@ class UserTest extends TestCase
 
     public function testUserPostSuccess()
     {
+        $user = User::where('email', 'admin@alientronics.com.br')->first();
+        $vehicles = $user->company->vehicles;
+        
         $this->post('/api/v1/user', ['api_token' => 'OTscjZ19F', 'email' => 'admin@alientronics.com.br'])
-            ->seeJson([
-                'email' => 'admin@alientronics.com.br',
-            ]);
+            ->seeJson($vehicles);
 
         $this->seeInDatabase('users', ['email' => 'admin@alientronics.com.br']);
     }
