@@ -2,7 +2,7 @@
 
 use Laravel\Lumen\Testing\DatabaseTransactions;
 
-class CompanyTest extends TestCase
+class UserTest extends TestCase
 {
     /**
      * A basic test example.
