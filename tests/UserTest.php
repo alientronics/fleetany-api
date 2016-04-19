@@ -22,7 +22,7 @@ class UserTest extends TestCase
 
     public function testUserPostFail()
     {
-        $this->post('/api/v1/user', ['api_token' => 'OTscjZ19F', 'email' => 'testeapi@alientronics.com.br']);
+        $this->post('/api/v1/user');
 
         $this->assertEquals($this->response->status(), 401);
 
@@ -30,12 +30,12 @@ class UserTest extends TestCase
 
     public function testUserPostSuccess()
     {
-        $this->post('/api/v1/user', ['api_token' => 'OTscjZ19F', 'email' => 'testeapi@alientronics.com.br'])
+        $this->post('/api/v1/user', ['api_token' => 'OTscjZ19F', 'email' => 'admin@alientronics.com.br'])
             ->seeJson([
-                'email' => 'testeapi@alientronics.com.br',
+                'email' => 'admin@alientronics.com.br',
             ]);
 
-        $this->seeInDatabase('users', ['email' => 'testeapi@alientronics.com.br']);
+        $this->seeInDatabase('users', ['email' => 'admin@alientronics.com.br']);
     }
 
 }

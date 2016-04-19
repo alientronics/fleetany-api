@@ -22,9 +22,7 @@ class GpsTest extends TestCase
 
     public function testGpsPostFail()
     {
-        $this->post('/api/v1/gps', ['api_token' => 'OTscjZ19F', 
-                                    'email' => 'admin@alientronics.com.br', 
-                                    'vehicle_id' => 1, 
+        $this->post('/api/v1/gps', ['vehicle_id' => 1, 
                                     'latitude' => 51.10, 
                                     'longitude' => 30.05
         ]);
