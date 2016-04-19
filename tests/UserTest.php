@@ -32,7 +32,7 @@ class UserTest extends TestCase
     public function testUserPostSuccess()
     {
         $user = User::where('email', 'admin@alientronics.com.br')->first();
-        $vehicles = $user->company->vehicles;
+        $vehicles = json_encode($user->company->vehicles);
         
         $this->post('/api/v1/user', ['api_token' => 'OTscjZ19F', 'email' => 'admin@alientronics.com.br'])
             ->seeJson($vehicles);
