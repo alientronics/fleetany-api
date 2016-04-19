@@ -30,10 +30,7 @@ class UserTest extends TestCase
 
     public function testUserPostSuccess()
     {
-        $company = factory('App\Company')->create();
-
-        $this->actingAs($company)
-            ->post('/api/v1/user', ['api_token' => 'OTscjZ19F', 'email' => 'testeapi@alientronics.com.br'])
+        $this->post('/api/v1/user', ['api_token' => 'OTscjZ19F', 'email' => 'testeapi@alientronics.com.br'])
             ->seeJson([
                 'email' => 'testeapi@alientronics.com.br',
             ]);

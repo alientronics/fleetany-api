@@ -22,9 +22,7 @@ class TripTest extends TestCase
 
     public function testTripPostFail()
     {
-        $this->post('/api/v1/trip', ['api_token' => 'OTscjZ19F', 
-                                    'email' => 'admin@alientronics.com.br', 
-                                    'vehicle_id' => 1, 
+        $this->post('/api/v1/trip', ['vehicle_id' => 1, 
                                     'fuel_cost' => 51.10, 
                                     'fuel_amount' => 30.05, 
                                     'end_mileage' => 123, 
