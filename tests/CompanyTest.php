@@ -1,6 +1,7 @@
 <?php
 
 use Laravel\Lumen\Testing\DatabaseTransactions;
+use App\Entities\Company;
 
 class CompanyTest extends TestCase
 {
@@ -24,6 +25,16 @@ class CompanyTest extends TestCase
 
         $this->assertEquals($this->response->status(), 401);
 
+    }
+    
+    public function testCompanyGetSuccess()
+    {
+        $company = Company::all();
+        $company = $company->toArray();
+        
+        $this->get('/api/v1/company/1', ['api_token' => 'OTscjZ19F', 
+                                    'email' => 'admin@alientronics.com.br'])
+            ->seeJson($company);
     }
 
     public function testCompanyDeleteFail()

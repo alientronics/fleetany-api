@@ -1,6 +1,7 @@
 <?php
 
 use Laravel\Lumen\Testing\DatabaseTransactions;
+use App\Entities\Trip;
 
 class TripTest extends TestCase
 {
@@ -10,6 +11,16 @@ class TripTest extends TestCase
 
         $this->assertEquals($this->response->status(), 401);
 
+    }
+    
+    public function testTripGetSuccess()
+    {
+        $trips = Trip::all();
+        $trips = $trips->toArray();
+        
+        $this->get('/api/v1/trip', ['api_token' => 'OTscjZ19F', 
+                                    'email' => 'admin@alientronics.com.br'])
+            ->seeJson($trips);
     }
 
     public function testTripDeleteFail()

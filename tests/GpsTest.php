@@ -1,6 +1,7 @@
 <?php
 
 use Laravel\Lumen\Testing\DatabaseTransactions;
+use App\Entities\Gps;
 
 class GpsTest extends TestCase
 {
@@ -10,6 +11,16 @@ class GpsTest extends TestCase
 
         $this->assertEquals($this->response->status(), 401);
 
+    }
+    
+    public function testGpsGetSuccess()
+    {
+        $gps = Gps::all();
+        $gps = $gps->toArray();
+        
+        $this->get('/api/v1/gps', ['api_token' => 'OTscjZ19F', 
+                                    'email' => 'admin@alientronics.com.br'])
+            ->seeJson($gps);
     }
 
     public function testGpsDeleteFail()

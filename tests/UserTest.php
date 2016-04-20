@@ -12,6 +12,16 @@ class UserTest extends TestCase
         $this->assertEquals($this->response->status(), 401);
 
     }
+    
+    public function testUserGetSuccess()
+    {
+        $user = User::all();
+        $user = $user->toArray();
+        
+        $this->get('/api/v1/user', ['api_token' => 'OTscjZ19F', 
+                                    'email' => 'admin@alientronics.com.br'])
+            ->seeJson($user);
+    }
 
     public function testUserDeleteFail()
     {
@@ -39,6 +49,14 @@ class UserTest extends TestCase
             ->seeJson($vehicles);
 
         $this->seeInDatabase('users', ['email' => 'admin@alientronics.com.br']);
+    }
+
+    public function testUserPostCreateSuccess()
+    {
+        $this->post('/api/v1/user', ['api_token' => 'OTscjZ19F', 'email' => 'admin2@alientronics.com.br'])
+            ->seeJson();
+
+        $this->seeInDatabase('users', ['email' => 'admin2@alientronics.com.br']);
     }
 
 }
