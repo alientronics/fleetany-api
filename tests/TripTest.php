@@ -15,7 +15,8 @@ class TripTest extends TestCase
     
     public function testTripGetSuccess()
     {
-        $trips = Trip::find(1)->attributesToArray();
+        $trips = Trip::all();
+        $trips = $trips->toArray();
         
         $this->get('/api/v1/trip', ['api_token' => env('APP_TOKEN')])
             ->seeJson($trips);

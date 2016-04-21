@@ -15,7 +15,8 @@ class UserTest extends TestCase
     
     public function testUserGetSuccess()
     {
-        $user = User::find(1)->attributesToArray();
+        $user = User::all();
+        $user = $user->toArray();
         
         $this->get('/api/v1/user', ['api_token' => env('APP_TOKEN')])
             ->seeJson($user);

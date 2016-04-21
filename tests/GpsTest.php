@@ -15,7 +15,8 @@ class GpsTest extends TestCase
     
     public function testGpsGetSuccess()
     {
-        $gps = Gps::find(1)->attributesToArray();
+        $gps = Gps::all();
+        $gps = $gps->toArray();
         
         $this->get('/api/v1/gps', ['api_token' => env('APP_TOKEN')])
             ->seeJson($gps);
