@@ -15,7 +15,7 @@ $app->get('/', function () use ($app) {
     return $app->version();
 });
 
-$app->group(['prefix' => 'api/v1','namespace' => 'App\Http\Controllers', 'middleware' => 'auth'], function ($app) {
+$app->group(['prefix' => 'api/v1','namespace' => 'App\Http\Controllers', 'middleware' => ['cors', 'auth']] , function ($app) {
 
     $app->get('company', 'CompanyController@index');
   
