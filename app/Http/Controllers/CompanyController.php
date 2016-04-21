@@ -44,14 +44,6 @@ class CompanyController extends Controller
   
     }
   
-    public function deleteCompany($idCompany)
-    {
-        $Company  = Company::find($idCompany);
-        $Company->delete();
- 
-        return response()->json('deleted');
-    }
-  
     public function updateCompany(Request $request, $idCompany)
     {
         $Company  = Company::find($idCompany);

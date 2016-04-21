@@ -26,7 +26,13 @@ class CompanyTest extends TestCase
         $this->assertEquals($this->response->status(), 401);
 
     }
-    
+
+    public function testCompanyGetAllSuccess()
+    {   
+        $this->get('/api/v1/company', ['api_token' => env('APP_TOKEN')]);
+        $this->assertEquals($this->response->status(), 200);
+    }
+
     public function testCompanyGetSuccess()
     {
         $company = Company::find(1)->attributesToArray();
