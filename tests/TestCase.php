@@ -11,4 +11,13 @@ class TestCase extends Laravel\Lumen\Testing\TestCase
     {
         return require __DIR__.'/../bootstrap/app.php';
     }
+
+    public function get($uri, array $headers = [])
+    {
+    	$params = "";
+    	foreach ($headers as $key => $value) {
+    		$params .= "$key=$value&";
+    	}
+    	return parent::get($uri.'?'.$params);
+    }
 }

@@ -15,11 +15,9 @@ class TripTest extends TestCase
     
     public function testTripGetSuccess()
     {
-        $trips = Trip::all();
-        $trips = $trips->toArray();
+        $trips = Trip::find(1)->attributesToArray();
         
-        $this->get('/api/v1/trip', ['api_token' => 'OTscjZ19F', 
-                                    'email' => 'admin@alientronics.com.br'])
+        $this->get('/api/v1/trip', ['api_token' => env('APP_TOKEN')])
             ->seeJson($trips);
     }
 
@@ -50,7 +48,7 @@ class TripTest extends TestCase
         $company = factory('App\Company')->create();
 
         $this->actingAs($company)
-            ->post('/api/v1/trip', ['api_token' => 'OTscjZ19F', 
+            ->post('/api/v1/trip', ['api_token' => env('APP_TOKEN'), 
                                     'email' => 'admin@alientronics.com.br', 
                                     'vehicle_id' => 1, 
                                     'fuel_cost' => 51.10, 

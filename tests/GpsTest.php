@@ -15,11 +15,9 @@ class GpsTest extends TestCase
     
     public function testGpsGetSuccess()
     {
-        $gps = Gps::all();
-        $gps = $gps->toArray();
+        $gps = Gps::find(1)->attributesToArray();
         
-        $this->get('/api/v1/gps', ['api_token' => 'OTscjZ19F', 
-                                    'email' => 'admin@alientronics.com.br'])
+        $this->get('/api/v1/gps', ['api_token' => env('APP_TOKEN')])
             ->seeJson($gps);
     }
 
@@ -47,7 +45,7 @@ class GpsTest extends TestCase
         $company = factory('App\Company')->create();
 
         $this->actingAs($company)
-            ->post('/api/v1/gps', ['api_token' => 'OTscjZ19F', 
+            ->post('/api/v1/gps', ['api_token' => env('APP_TOKEN'), 
                                     'email' => 'admin@alientronics.com.br', 
                                     'vehicle_id' => 1, 
                                     'latitude' => 51.10, 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a7bc38569d307c34cf15379272adb753",
+    "hash": "02eab0eddbacb48ae13c06eee9146a66",
     "content-hash": "0554a473f24c2a56d4eb271c63c6147e",
     "packages": [
         {
@@ -16,7 +16,7 @@
                 "reference": "master"
             },
             "type": "library",
-            "time": "2016-04-16 22:45:48"
+            "time": "2016-04-11 14:51:07"
         },
         {
             "name": "caouecs/laravel4-lang",
@@ -2018,7 +2018,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/andersao/l5-repository/zipball/e4cfef3de00f0ad039a4bcdb8e9772ad4c11879c",
+                "url": "https://api.github.com/repos/andersao/l5-repository/zipball/a53d5f49959ff189c000e46de221df8e62dc6e69",
                 "reference": "e4cfef3de00f0ad039a4bcdb8e9772ad4c11879c",
                 "shasum": ""
             },
@@ -2850,7 +2850,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codeclimate/php-test-reporter/zipball/a8226e79dddf69682e2f8faaa34c36aa50b4188d",
+                "url": "https://api.github.com/repos/codeclimate/php-test-reporter/zipball/3a2d3ebdc1df5acf372458c15041af240a6fc016",
                 "reference": "a8226e79dddf69682e2f8faaa34c36aa50b4188d",
                 "shasum": ""
             },

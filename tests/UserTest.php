@@ -15,11 +15,9 @@ class UserTest extends TestCase
     
     public function testUserGetSuccess()
     {
-        $user = User::all();
-        $user = $user->toArray();
+        $user = User::find(1)->attributesToArray();
         
-        $this->get('/api/v1/user', ['api_token' => 'OTscjZ19F', 
-                                    'email' => 'admin@alientronics.com.br'])
+        $this->get('/api/v1/user', ['api_token' => env('APP_TOKEN')])
             ->seeJson($user);
     }
 
@@ -45,7 +43,7 @@ class UserTest extends TestCase
         $vehicles = $user->company->vehicles;
         $vehicles = $vehicles->toArray();
         
-        $this->post('/api/v1/user', ['api_token' => 'OTscjZ19F', 'email' => 'admin@alientronics.com.br'])
+        $this->post('/api/v1/user', ['api_token' => env('APP_TOKEN'), 'email' => 'admin@alientronics.com.br'])
             ->seeJson($vehicles);
 
         $this->seeInDatabase('users', ['email' => 'admin@alientronics.com.br']);
@@ -53,7 +51,7 @@ class UserTest extends TestCase
 
     public function testUserPostCreateSuccess()
     {
-        $this->post('/api/v1/user', ['api_token' => 'OTscjZ19F', 'email' => 'admin2@alientronics.com.br'])
+        $this->post('/api/v1/user', ['api_token' => env('APP_TOKEN'), 'email' => 'admin2@alientronics.com.br'])
             ->seeJson();
 
         $this->seeInDatabase('users', ['email' => 'admin2@alientronics.com.br']);

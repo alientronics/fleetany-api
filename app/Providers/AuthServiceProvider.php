@@ -35,9 +35,9 @@ class AuthServiceProvider extends ServiceProvider
             if ($request->input('api_token') == env('APP_TOKEN', null)) {
                 return factory('App\Entities\User')->make();
             }
-            if ($request->input('api_token')) {
-                return Company::where('api_token', $request->input('api_token'))->first();
-            }
+            //if ($request->input('api_token')) {
+            //    return Company::where('api_token', $request->input('api_token'))->first();
+            //}
         });
     }
 }

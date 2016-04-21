@@ -29,11 +29,11 @@ class CompanyTest extends TestCase
     
     public function testCompanyGetSuccess()
     {
-        $company = Company::all();
-        $company = $company->toArray();
-        
-        $this->get('/api/v1/company/1', ['api_token' => 'OTscjZ19F', 
-                                    'email' => 'admin@alientronics.com.br'])
+        $company = Company::find(1)->attributesToArray();
+        unset($company['api_token']);
+        unset($company['contact_id']);
+
+        $this->get('/api/v1/company/1', ['api_token' => env('APP_TOKEN')])
             ->seeJson($company);
     }
 
