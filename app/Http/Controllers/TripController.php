@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Entities\Trip;
 use App\Entities\User;
 use Carbon\Carbon;
+use Log;
+use App\Entities\Type;
 
 class TripController extends Controller
 {
@@ -34,7 +36,6 @@ class TripController extends Controller
         try {
             $inputs = $request->all();
             $user = User::where('email', $inputs['email'])->first();
-
             $inputsCreate['vehicle_id'] = $inputs['vehicle_id'];
             $inputsCreate['fuel_cost'] = $inputs['fuel_cost'];
             $inputsCreate['fuel_amount'] = $inputs['fuel_amount'];
@@ -42,17 +43,20 @@ class TripController extends Controller
             $inputsCreate['fuel_type'] = $inputs['fuel_type'];
             $inputsCreate['tank_fill_up'] = $inputs['tank_fill_up'];
             $inputsCreate['company_id'] = $user->company_id;
-            $trip = Trip::where('company_id', $inputsCreate['company_id'])->first();
-            $inputsCreate['trip_type_id'] = $trip->trip_type_id;
+            $type = Type::where('company_id', $inputsCreate['company_id'])
+                        ->where('entity_key', 'trip')
+                        ->first();
+            $inputsCreate['trip_type_id'] = $type->id;
             $inputsCreate['pickup_date'] = Carbon::now();
             $Trip = Trip::forceCreate($inputsCreate);
-    
+
             if (is_numeric($Trip->id)) {
                 $success = true;
             } else {
                 $success = false;
             }
         } catch (\Exception $e) {
+            Log::info($e->getMessage());
             $success = false;
         }
         
