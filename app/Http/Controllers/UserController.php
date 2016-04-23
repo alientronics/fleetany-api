@@ -6,6 +6,7 @@ use App\Entities\User;
 use App\Http\Controllers\Controller;
 use App\Entities\Vehicle;
 use Illuminate\Http\Request;
+use App\Entities\Type;
 
 class UserController extends Controller
 {
@@ -42,7 +43,12 @@ class UserController extends Controller
             $user->setUp();
         }
 
-        $vehicles = $user->company->vehicles;
-        return response()->json($vehicles);
+        $response['vehicles'] = $user->company->vehicles;
+        
+        $response['fuelTypes'] = Type::where('entity_key', 'fuel')
+                    ->where('company_id', $user->company_id)
+                    ->get();
+        
+        return response()->json($response);
     }
 }

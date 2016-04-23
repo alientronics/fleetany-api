@@ -2,6 +2,7 @@
 
 use Laravel\Lumen\Testing\DatabaseTransactions;
 use App\Entities\User;
+use App\Entities\Type;
 
 class UserTest extends TestCase
 {
@@ -42,10 +43,14 @@ class UserTest extends TestCase
     {
         $user = User::where('email', 'admin@alientronics.com.br')->first();
         $vehicles = $user->company->vehicles;
-        $vehicles = $vehicles->toArray();
+        $response['vehicles'] = $vehicles->toArray();
+        
+        $response['fuelTypes'] = Type::where('entity_key', 'fuel')
+                                    ->where('company_id', $user->company_id)
+                                    ->get();
         
         $this->post('/api/v1/user', ['api_token' => env('APP_TOKEN'), 'email' => 'admin@alientronics.com.br'])
-            ->seeJson($vehicles);
+            ->seeJson($response);
 
         $this->seeInDatabase('users', ['email' => 'admin@alientronics.com.br']);
     }

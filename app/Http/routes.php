@@ -34,8 +34,6 @@ $app->group([
         $app->get('user', 'UserController@index');
         $app->post('user', 'UserController@findOrCreateUser');
 
-        $app->get('fuelType', 'TypeController@getFuelType');
-
         $app->get('trip', 'TripController@index');
         $app->post('trip', 'TripController@create');
 
