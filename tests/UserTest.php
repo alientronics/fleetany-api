@@ -47,7 +47,8 @@ class UserTest extends TestCase
         
         $response['fuelTypes'] = Type::where('entity_key', 'fuel')
                                     ->where('company_id', $user->company_id)
-                                    ->get();
+                                    ->get()
+                                    ->toArray();
         
         $this->post('/api/v1/user', ['api_token' => env('APP_TOKEN'), 'email' => 'admin@alientronics.com.br'])
             ->seeJson($response);
