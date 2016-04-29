@@ -21,8 +21,8 @@ install:
 before_script:
   - mysql -e 'create database tpms;'
   - mv .env.example .env
-  - php artisan vendor:publish --provider="Kodeine\Acl\AclServiceProvider"
-  - php artisan migrate:refresh --seed --force --path=vendor/alientronics/fleetany-web/database/migrations
+  - php artisan migrate --path=vendor/alientronics/laravel-acl/src/migrations
+  - php artisan migrate --seed --force --path=vendor/alientronics/fleetany-web/database/migrations
 
 script:
   - phpunit --coverage-clover build/logs/clover.xml --stderr --configuration phpunit.xml --debug

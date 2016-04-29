@@ -38,7 +38,7 @@
         "alientronics/fleetany-web": "dev-master",
         "prettus/l5-repository": "dev-master",
         "doctrine/dbal": "v2.4.2",
-        "kodeine/laravel-acl": "dev-master",
+        "alientronics/laravel-acl": "dev-master",
         "prettus/laravel-validation": "1.1.*",
         "caouecs/laravel4-lang": "~2.0",
         "fzaninotto/faker": "~1.4"
@@ -50,8 +50,7 @@
         "phploc/phploc": "*",
         "sebastian/phpcpd": "*",
         "phpmd/phpmd": "*",
-        "codeclimate/php-test-reporter": "dev-master",
-        "alientronics/laravel-acl": "dev-master"
+        "codeclimate/php-test-reporter": "dev-master"
     },
     "autoload": {
         "psr-4": {
@@ -65,7 +64,8 @@
     "autoload-dev": {
         "classmap": [
             "tests/",
-            "vendor/alientronics/fleetany-web/database/"
+            "vendor/alientronics/fleetany-web/database/",
+            "vendor/alientronics/laravel-acl/src/"
         ]
     }
 }
