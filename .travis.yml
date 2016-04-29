@@ -21,6 +21,7 @@ install:
 before_script:
   - mysql -e 'create database tpms;'
   - mv .env.example .env
+  - php artisan vendor:publish --provider="Kodeine\Acl\AclServiceProvider"
   - php artisan migrate:refresh --seed --force --path=vendor/alientronics/fleetany-web/database/migrations
 
 script:

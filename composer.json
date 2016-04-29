@@ -16,6 +16,18 @@
                     "reference": "master"
                 }
             }
+        },
+        {
+            "type": "package",
+            "package": {
+                "version": "dev-master",
+                "name": "alientronics/laravel-acl",
+                "source": {
+                    "url": "https://github.com/alientronics/laravel-acl.git",
+                    "type": "git",
+                    "reference": "master"
+                }
+            }
         }
     ],
     "require": {
@@ -38,7 +50,8 @@
         "phploc/phploc": "*",
         "sebastian/phpcpd": "*",
         "phpmd/phpmd": "*",
-        "codeclimate/php-test-reporter": "dev-master"
+        "codeclimate/php-test-reporter": "dev-master",
+        "alientronics/laravel-acl": "dev-master"
     },
     "autoload": {
         "psr-4": {
