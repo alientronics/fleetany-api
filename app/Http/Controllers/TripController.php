@@ -37,6 +37,7 @@ class TripController extends Controller
             $inputs = $request->all();
             $user = User::where('email', $inputs['email'])->first();
             $inputsCreate['vehicle_id'] = $inputs['vehicle_id'];
+            $inputsCreate['driver_id'] = $user->contact->id;
             $inputsCreate['fuel_cost'] = $inputs['fuel_cost'];
             $inputsCreate['fuel_amount'] = $inputs['fuel_amount'];
             $inputsCreate['end_mileage'] = $inputs['end_mileage'];

@@ -37,6 +37,7 @@ class GpsController extends Controller
             $user = User::where('email', $inputs['email'])->first();
             $inputsCreate['company_id'] = $user->company_id;
             $inputsCreate['vehicle_id'] = $inputs['vehicle_id'];
+            $inputsCreate['driver_id'] = $user->contact->id;
             $inputsCreate['latitude'] = $inputs['latitude'];
             $inputsCreate['longitude'] = $inputs['longitude'];
             $Gps = Gps::forceCreate($inputsCreate);
