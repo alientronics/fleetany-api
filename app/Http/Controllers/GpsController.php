@@ -8,6 +8,8 @@ use App\Entities\Trip;
 use App\Entities\User;
 use Carbon\Carbon;
 use App\Entities\Gps;
+use App\Entities\TireSensor;
+use App\Entities\Part;
 
 class GpsController extends Controller
 {
@@ -41,6 +43,28 @@ class GpsController extends Controller
             $inputsCreate['latitude'] = $inputs['latitude'];
             $inputsCreate['longitude'] = $inputs['longitude'];
             $Gps = Gps::forceCreate($inputsCreate);
+            
+            if(!empty($inputs['json'])) {
+                
+                $jsonObj = json_decode($inputs['json']);
+                $data = $jsonObj->json;
+                
+                foreach ($data as $json) {
+                    
+                    $part = Part::select('id')->where('number', $json->id)->first();
+                    
+                    if(!empty($part)) {
+                        TireSensor::forceCreate(["latitude" => $inputsCreate['latitude'],
+                                                "longitude" => $inputsCreate['longitude'],
+                                                "created_at" => $json->ts,
+                                                "number" => $json->id,
+                                                "temperature" => $json->temp,
+                                                "pressure" => $json->press,
+                                                "part_id" => $part->id
+                        ]);
+                    }
+                }
+            }
             
             if (is_numeric($Gps->id)) {
                 $success = true;
