@@ -42,16 +42,14 @@ class GpsController extends Controller
             $inputsCreate['longitude'] = $inputs['longitude'];
             $Gps = Gps::forceCreate($inputsCreate);
 
-            if(!empty($inputs['json'])) {
-                
+            if (!empty($inputs['json'])) {
                 $jsonObj = json_decode($inputs['json']);
                 $data = $jsonObj->json;
                 
                 foreach ($data as $json) {
-                    
                     $part = Part::select('id')->where('number', $json->id)->first();
                     
-                    if(!empty($part)) {
+                    if (!empty($part)) {
                         TireSensor::forceCreate(["latitude" => $inputsCreate['latitude'],
                                                 "longitude" => $inputsCreate['longitude'],
                                                 "created_at" => $json->ts,
