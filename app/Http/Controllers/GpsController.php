@@ -34,6 +34,7 @@ class GpsController extends Controller
     {
         try {
             $inputs = $request->all();
+            
             $user = User::where('email', $inputs['email'])->first();
             $inputsCreate['company_id'] = $user->company_id;
             $inputsCreate['vehicle_id'] = $inputs['vehicle_id'];
@@ -43,8 +44,7 @@ class GpsController extends Controller
             $Gps = Gps::forceCreate($inputsCreate);
 
             if (!empty($inputs['json'])) {
-                $jsonObj = json_decode($inputs['json']);
-                $data = $jsonObj->json;
+                $data = json_decode($inputs['json']);
                 
                 foreach ($data as $json) {
                     $part = Part::select('id')->where('number', $json->id)->first();
