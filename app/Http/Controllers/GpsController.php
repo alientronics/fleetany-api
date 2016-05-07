@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Entities\Trip;
 use App\Entities\User;
-use Carbon\Carbon;
 use App\Entities\Gps;
 use App\Entities\TireSensor;
 use App\Entities\Part;
@@ -43,7 +41,7 @@ class GpsController extends Controller
             $inputsCreate['latitude'] = $inputs['latitude'];
             $inputsCreate['longitude'] = $inputs['longitude'];
             $Gps = Gps::forceCreate($inputsCreate);
-            
+
             if(!empty($inputs['json'])) {
                 
                 $jsonObj = json_decode($inputs['json']);
