@@ -58,14 +58,14 @@
         },
         "classmap": [
             "vendor/alientronics/fleetany-web/app/Entities/",
-            "vendor/alientronics/fleetany-web/app/Repositories/"
+            "vendor/alientronics/fleetany-web/app/Repositories/",
+            "vendor/alientronics/laravel-acl/src/"
         ]
     },
     "autoload-dev": {
         "classmap": [
             "tests/",
-            "vendor/alientronics/fleetany-web/database/",
-            "vendor/alientronics/laravel-acl/src/"
+            "vendor/alientronics/fleetany-web/database/"
         ]
     }
 }
