@@ -49,16 +49,14 @@ class GpsController extends Controller
                 foreach ($data as $json) {
                     $part = Part::select('id')->where('number', $json->id)->first();
                     
-                    if (!empty($part)) {
-                        TireSensor::forceCreate(["latitude" => $inputsCreate['latitude'],
-                                                "longitude" => $inputsCreate['longitude'],
-                                                "created_at" => $json->ts,
-                                                "number" => $json->id,
-                                                "temperature" => $json->temp,
-                                                "pressure" => $json->press,
-                                                "part_id" => $part->id
-                        ]);
-                    }
+                    TireSensor::forceCreate(["latitude" => ( is_numeric($inputsCreate['latitude']) ? $inputsCreate['latitude'] : null ),
+                                            "longitude" => ( is_numeric($inputsCreate['longitude']) ? $inputsCreate['longitude'] : null ),
+                                            "created_at" => ( $this->validateDate($json->ts) ? $json->ts : \DB::raw('NOW()') ),
+                                            "number" => $json->id,
+                                            "temperature" => ( is_numeric($json->temp) ? $json->temp : null ),
+                                            "pressure" => ( is_numeric($json->press) ? $json->press : null ),
+                                            "part_id" => ( $part->id ?: null )
+                    ]);
                 }
             }
             
@@ -72,5 +70,11 @@ class GpsController extends Controller
         }
         
         return response()->json(["success" => $success]);
+    }
+    
+    private function validateDate($date, $format = 'Y-m-d H:i:s')
+    {
+        $d = \DateTime::createFromFormat($format, $date);
+        return $d && $d->format($format) == $date;
     }
 }
