@@ -55,7 +55,7 @@ class GpsController extends Controller
                                             "number" => $json->id,
                                             "temperature" => ( is_numeric($json->temp) ? $json->temp : null ),
                                             "pressure" => ( is_numeric($json->press) ? $json->press : null ),
-                                            "part_id" => ( $part->id ?: null )
+                                            "part_id" => ( !empty($part->id) ? $part->id : null )
                     ]);
                 }
             }
