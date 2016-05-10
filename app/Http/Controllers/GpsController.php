@@ -43,22 +43,7 @@ class GpsController extends Controller
             $inputsCreate['longitude'] = $inputs['longitude'];
             $Gps = Gps::forceCreate($inputsCreate);
 
-            if (!empty($inputs['json'])) {
-                $data = json_decode($inputs['json']);
-                
-                foreach ($data as $json) {
-                    $part = Part::select('id')->where('number', $json->id)->first();
-                    
-                    TireSensor::forceCreate(["latitude" => ( is_numeric($inputsCreate['latitude']) ? $inputsCreate['latitude'] : null ),
-                                            "longitude" => ( is_numeric($inputsCreate['longitude']) ? $inputsCreate['longitude'] : null ),
-                                            "created_at" => ( $this->validateDate($json->ts) ? $json->ts : \DB::raw('NOW()') ),
-                                            "number" => $json->id,
-                                            "temperature" => ( is_numeric($json->temp) ? $json->temp : null ),
-                                            "pressure" => ( is_numeric($json->press) ? $json->press : null ),
-                                            "part_id" => ( !empty($part->id) ? $part->id : null )
-                    ]);
-                }
-            }
+            $this->insertTireSensors($inputs, $inputsCreate);
             
             if (is_numeric($Gps->id)) {
                 $success = true;
@@ -72,9 +57,35 @@ class GpsController extends Controller
         return response()->json(["success" => $success]);
     }
     
+    private function insertTireSensors($inputs, $inputsCreate)
+    {
+        if (!empty($inputs['json'])) {
+            $data = json_decode($inputs['json']);
+        
+            foreach ($data as $json) {
+                $part = Part::select('id')->where('number', $json->id)->first();
+        
+                TireSensor::forceCreate(["latitude" => $this->validateNumeric($inputsCreate['latitude']),
+                    "longitude" => $this->validateNumeric($inputsCreate['longitude']),
+                    "created_at" => ( $this->validateDate($json->ts) ?
+                        $json->ts : \DB::raw('NOW()') ),
+                    "number" => $json->id,
+                    "temperature" => $this->validateNumeric($json->temp),
+                    "pressure" => $this->validateNumeric($json->press),
+                    "part_id" => ( !empty($part->id) ? $part->id : null )
+                ]);
+            }
+        }
+    }
+    
+    private function validateNumeric($value)
+    {
+        return ( is_numeric($value) ? $value : null );
+    }
+    
     private function validateDate($date, $format = 'Y-m-d H:i:s')
     {
-        $d = \DateTime::createFromFormat($format, $date);
-        return $d && $d->format($format) == $date;
+        $dateFormatted = \DateTime::createFromFormat($format, $date);
+        return $dateFormatted && $dateFormatted->format($format) == $date;
     }
 }
