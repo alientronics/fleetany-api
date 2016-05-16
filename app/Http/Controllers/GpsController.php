@@ -32,7 +32,7 @@ class GpsController extends Controller
   
     public function create(Request $request)
     {
-        try {
+        //try {
             $inputs = $request->all();
             
             $user = User::where('email', $inputs['email'])->first();
@@ -43,16 +43,17 @@ class GpsController extends Controller
             $inputsCreate['longitude'] = $inputs['longitude'];
             $Gps = Gps::forceCreate($inputsCreate);
 
+            //file_put_contents('gps.log','GPS Data: '.json_encode($inputs)."\n",FILE_APPEND);
             $this->insertTireSensors($inputs, $inputsCreate);
             
-            if (is_numeric($Gps->id)) {
-                $success = true;
-            } else {
-                $success = false;
-            }
-        } catch (\Exception $e) {
+        if (is_numeric($Gps->id)) {
+            $success = true;
+        } else {
             $success = false;
         }
+        //} catch (\Exception $e) {
+        //    $success = false;
+        //}
         
         return response()->json(["success" => $success]);
     }
@@ -60,32 +61,47 @@ class GpsController extends Controller
     private function insertTireSensors($inputs, $inputsCreate)
     {
         if (!empty($inputs['json'])) {
-            $data = json_decode($inputs['json']);
-        
-            foreach ($data as $json) {
-                $part = Part::select('id')->where('number', $json->id)->first();
+            $json = $this->parseJson($inputs['json']);
+
+            //foreach ($data as $json) {
+                $part = Part::select('id')->where('number', $json['id'])->first();
         
                 TireSensor::forceCreate(["latitude" => $this->validateNumeric($inputsCreate['latitude']),
                     "longitude" => $this->validateNumeric($inputsCreate['longitude']),
-                    "created_at" => ( $this->validateDate($json->ts) ?
-                        $json->ts : \DB::raw('NOW()') ),
-                    "number" => $json->id,
-                    "temperature" => $this->validateNumeric($json->temp),
-                    "pressure" => $this->validateNumeric($json->press),
+                    //"created_at" => ( $this->validateDate($json['ts']) ?
+                    //    $json['ts'] : \DB::raw('NOW()') ),
+                    "number" => $json['id'],
+                    "temperature" => $this->validateNumeric($json['tp']),
+                    "pressure" => $this->validateNumeric($json['pr']),
                     "part_id" => ( !empty($part->id) ? $part->id : null )
                 ]);
-            }
+            //}
         }
     }
     
+    private function parseJson($json)
+    {
+        $json = stripslashes($json);
+        $json = str_replace('rn', '', $json);
+        $data = json_decode($json, true);
+        if (json_last_error() > 0) {
+            $pattern = '/id":(\d+),/i';
+            $replacement = 'id":"${1}",';
+            $json = preg_replace($pattern, $replacement, $json);
+            $data = json_decode($json, true);
+        }
+        return $data;
+    }
+
+
     private function validateNumeric($value)
     {
         return ( is_numeric($value) ? $value : null );
     }
     
-    private function validateDate($date, $format = 'Y-m-d H:i:s')
+    /*private function validateDate($date, $format = 'Y-m-d H:i:s')
     {
         $dateFormatted = \DateTime::createFromFormat($format, $date);
         return $dateFormatted && $dateFormatted->format($format) == $date;
-    }
+    }*/
 }
