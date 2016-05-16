@@ -60,7 +60,11 @@ class GpsController extends Controller
     
     private function insertTireSensors($inputs, $inputsCreate)
     {
-        if (!empty($inputs['json'])) {
+        if (!empty($inputs['json']) &&
+            isset($inputs['json']['id']) &&
+            isset($inputs['json']['tp']) &&
+            isset($inputs['json']['pr'])
+            ) {
             $json = $this->parseJson($inputs['json']);
 
             //foreach ($data as $json) {
