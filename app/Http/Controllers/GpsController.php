@@ -63,8 +63,7 @@ class GpsController extends Controller
         if (!empty($inputs['json'])) {
             $json = $this->parseJson($inputs['json']);
 
-            if ( isset($json['id']) && isset($json['tp']) && isset($json['pr']) ) {
-
+            if (isset($json['id']) && isset($json['tp']) && isset($json['pr'])) {
                 //foreach ($data as $json) {
                     $part = Part::select('id')->where('number', $json['id'])->first();
             
