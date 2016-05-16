@@ -60,26 +60,25 @@ class GpsController extends Controller
     
     private function insertTireSensors($inputs, $inputsCreate)
     {
-        if (!empty($inputs['json']) &&
-            isset($inputs['json']['id']) &&
-            isset($inputs['json']['tp']) &&
-            isset($inputs['json']['pr'])
-            ) {
+        if (!empty($inputs['json'])) {
             $json = $this->parseJson($inputs['json']);
 
-            //foreach ($data as $json) {
-                $part = Part::select('id')->where('number', $json['id'])->first();
-        
-                TireSensor::forceCreate(["latitude" => $this->validateNumeric($inputsCreate['latitude']),
-                    "longitude" => $this->validateNumeric($inputsCreate['longitude']),
-                    //"created_at" => ( $this->validateDate($json['ts']) ?
-                    //    $json['ts'] : \DB::raw('NOW()') ),
-                    "number" => $json['id'],
-                    "temperature" => $this->validateNumeric($json['tp']),
-                    "pressure" => $this->validateNumeric($json['pr']),
-                    "part_id" => ( !empty($part->id) ? $part->id : null )
-                ]);
-            //}
+            if ( isset($json['id']) && isset($json['tp']) && isset($json['pr']) ) {
+
+                //foreach ($data as $json) {
+                    $part = Part::select('id')->where('number', $json['id'])->first();
+            
+                    TireSensor::forceCreate(["latitude" => $this->validateNumeric($inputsCreate['latitude']),
+                        "longitude" => $this->validateNumeric($inputsCreate['longitude']),
+                        //"created_at" => ( $this->validateDate($json['ts']) ?
+                        //    $json['ts'] : \DB::raw('NOW()') ),
+                        "number" => $json['id'],
+                        "temperature" => $this->validateNumeric($json['tp']),
+                        "pressure" => $this->validateNumeric($json['pr']),
+                        "part_id" => ( !empty($part->id) ? $part->id : null )
+                    ]);
+                //}
+            }
         }
     }
     

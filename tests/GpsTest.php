@@ -72,7 +72,7 @@ class GpsTest extends TestCase
                 'vehicle_id' => 1, 
                 'latitude' => 51.10, 
                 'longitude' => 30.05,
-                'json' => '{\"id\":0000000001,\"pr\":127,\"tp\":22,\"ba\":2.95}\r\n'
+                'json' => '{\"id\":\"0000000001\",\"pr\":127,\"tp\":22.0,\"ba\":2.95}\r\n'
             ])
             ->seeJson([
                 'success' => true
