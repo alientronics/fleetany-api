@@ -36,6 +36,8 @@ class GpsController extends Controller
         //try {
             $inputs = $request->all();
          
+            $inputs = $this->validateNumericNullables($inputs);
+            
             $user = User::where('email', $inputs['email'])->first();
             $inputsCreate['company_id'] = $user->company_id;
             $inputsCreate['vehicle_id'] = $inputs['vehicle_id'];
@@ -49,7 +51,7 @@ class GpsController extends Controller
             $inputsCreate['speed'] = $inputs['speed'];
             $Gps = Gps::forceCreate($inputsCreate);
 
-            Log::info('GPS Data: '.json_encode($inputs));  
+            Log::info('GPS Data: '.json_encode($inputs));
             $this->insertTireSensors($inputs, $inputsCreate);
             
         if (is_numeric($Gps->id)) {
@@ -107,6 +109,18 @@ class GpsController extends Controller
     private function validateNumeric($value)
     {
         return ( is_numeric($value) ? $value : null );
+    }
+
+    private function validateNumericNullables($gpsData)
+    {
+        $fields = ['accuracy', 'altitude', 'altitudeAccuracy', 'heading', 'speed'];
+        
+        foreach ($fields as $field) {
+            $gpsData[$field] = ( !empty($gpsData[$field]) && is_numeric($gpsData[$field]) ?
+                                                    $gpsData[$field] : null );
+        }
+        
+        return $gpsData;
     }
     
     /*private function validateDate($date, $format = 'Y-m-d H:i:s')
