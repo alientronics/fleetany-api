@@ -8,6 +8,7 @@ use App\Entities\User;
 use App\Entities\Gps;
 use App\Entities\TireSensor;
 use App\Entities\Part;
+use Log;
 
 class GpsController extends Controller
 {
@@ -34,16 +35,21 @@ class GpsController extends Controller
     {
         //try {
             $inputs = $request->all();
-            
+         
             $user = User::where('email', $inputs['email'])->first();
             $inputsCreate['company_id'] = $user->company_id;
             $inputsCreate['vehicle_id'] = $inputs['vehicle_id'];
             $inputsCreate['driver_id'] = $user->contact->id;
             $inputsCreate['latitude'] = $inputs['latitude'];
             $inputsCreate['longitude'] = $inputs['longitude'];
+            $inputsCreate['accuracy'] = $inputs['accuracy'];
+            $inputsCreate['altitude'] = $inputs['altitude'];
+            $inputsCreate['altitudeAccuracy'] = $inputs['altitudeAccuracy'];
+            $inputsCreate['heading'] = $inputs['heading'];
+            $inputsCreate['speed'] = $inputs['speed'];
             $Gps = Gps::forceCreate($inputsCreate);
 
-            //file_put_contents('gps.log','GPS Data: '.json_encode($inputs)."\n",FILE_APPEND);
+            Log::info('GPS Data: '.json_encode($inputs));  
             $this->insertTireSensors($inputs, $inputsCreate);
             
         if (is_numeric($Gps->id)) {
