@@ -69,24 +69,26 @@ class GpsController extends Controller
     private function insertTireSensors($inputs, $inputsCreate)
     {
         if (!empty($inputs['json'])) {
-            $json = $this->parseJson($inputs['json']);
+            $jsonData = $this->parseJson($inputs['json']);
 
-            if (isset($json['id']) && isset($json['tp']) && isset($json['pr'])) {
-                //foreach ($data as $json) {
-                    $part = Part::select('id')->where('number', $json['id'])
-                                            ->where('company_id', $inputsCreate['company_id'])
-                                            ->first();
-            
-                    TireSensor::forceCreate(["latitude" => $this->validateNumeric($inputsCreate['latitude']),
-                        "longitude" => $this->validateNumeric($inputsCreate['longitude']),
-                        //"created_at" => ( $this->validateDate($json['ts']) ?
-                        //    $json['ts'] : \DB::raw('NOW()') ),
-                        "number" => $json['id'],
-                        "temperature" => $this->validateNumeric($json['tp']),
-                        "pressure" => $this->validateNumeric($json['pr']),
-                        "part_id" => ( !empty($part->id) ? $part->id : null )
-                    ]);
-                //}
+            if(!empty($jsonData)) {
+                foreach ($jsonData as $json) {
+                    if (isset($json['id']) && isset($json['tp']) && isset($json['pr'])) {
+                        $part = Part::select('id')->where('number', $json['id'])
+                                                ->where('company_id', $inputsCreate['company_id'])
+                                                ->first();
+                
+                        TireSensor::forceCreate(["latitude" => $this->validateNumeric($inputsCreate['latitude']),
+                            "longitude" => $this->validateNumeric($inputsCreate['longitude']),
+                            //"created_at" => ( $this->validateDate($json['ts']) ?
+                            //    $json['ts'] : \DB::raw('NOW()') ),
+                            "number" => $json['id'],
+                            "temperature" => $this->validateNumeric($json['tp']),
+                            "pressure" => $this->validateNumeric($json['pr']),
+                            "part_id" => ( !empty($part->id) ? $part->id : null )
+                        ]);
+                    }
+                }
             }
         }
     }
