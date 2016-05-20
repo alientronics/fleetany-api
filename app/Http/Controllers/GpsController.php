@@ -85,6 +85,7 @@ class GpsController extends Controller
                             "number" => $json['id'],
                             "temperature" => $this->validateNumeric($json['tp']),
                             "pressure" => $this->validateNumeric($json['pr']),
+                            "battery" => $this->validateNumeric($json['ba']),
                             "part_id" => ( !empty($part->id) ? $part->id : null )
                         ]);
                     }
