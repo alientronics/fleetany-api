@@ -37,10 +37,8 @@ $app->group([
         $app->get('trip', 'TripController@index');
         $app->post('trip', 'TripController@create');
 
-        $app->get('gps', 'GpsController@index');
         $app->post('gps', 'GpsController@create');
 
-        $app->get('bluetooth', 'BluetoothController@index');
-        $app->post('bluetooth', 'BluetoothController@create');
+        $app->post('tiresensor', 'TireSensorController@create');
 
     });

@@ -9,7 +9,7 @@ use App\Entities\TireSensor;
 use App\Entities\Part;
 use Log;
 
-class BluetoothController extends Controller
+class TireSensorController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -35,14 +35,10 @@ class BluetoothController extends Controller
         $inputs = $request->all();
             
         if (!empty($inputs['json'])) {
-            
             $jsonData = json_decode($inputs['json'], true);
            
             $user = User::where('email', $inputs['email'])->first();
 
-
-            Log::info(print_r($jsonData,1));
-            
             foreach ($jsonData as $json) {
                 if (isset($json['id']) && isset($json['tp']) && isset($json['pr'])) {
                     $part = Part::select('id')->where('number', $json['id'])
@@ -63,7 +59,7 @@ class BluetoothController extends Controller
             }
         }
         
-        Log::info('Bluetooth Data: '.json_encode($inputs));
+        Log::info('TireSensor Data: '.json_encode($inputs));
             
         $success = true;
         
