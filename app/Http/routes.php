@@ -40,4 +40,7 @@ $app->group([
         $app->get('gps', 'GpsController@index');
         $app->post('gps', 'GpsController@create');
 
+        $app->get('bluetooth', 'BluetoothController@index');
+        $app->post('bluetooth', 'BluetoothController@create');
+
     });
