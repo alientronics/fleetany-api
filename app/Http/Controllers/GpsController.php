@@ -36,7 +36,7 @@ class GpsController extends Controller
         if (!empty($gpsData)) {
             $gpsData['json'] = $this->getZipContent($gpsData['json']);
             Log::info('GPS Data: '.json_encode($gpsData));
-            
+           
             $jsonData = json_decode($gpsData['json'], true);
 
             foreach ($jsonData as $json) {
