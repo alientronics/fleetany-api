@@ -35,6 +35,7 @@ class TireSensorController extends Controller
         $inputs = $request->all();
             
         if (!empty($inputs['json'])) {
+            $inputs['json'] = $this->getZipContent($inputs['json']);
             $jsonData = json_decode($inputs['json'], true);
            
             $user = User::where('email', $inputs['email'])->first();
