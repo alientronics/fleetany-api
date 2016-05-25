@@ -6,13 +6,11 @@ use Laravel\Lumen\Routing\Controller as BaseController;
 
 class Controller extends BaseController
 {
-    protected function getZipContent($data)
+    protected function getZipContent($base64)
     {
-        if (base64_encode(base64_decode($data, true)) === $data) {
-            $data = base64_decode($data);
-        }
-        $data = strstr($data, '[{');
-        $data = strstr($data, '}]', true)."}]";
-        return $data;
+        $deflate = base64_decode($base64);
+        preg_match('/postData.json(.*)PK/', $deflate, $matches);
+        if ($matches[1]) return gzinflate($matches[1]);
+        else return null;
     }
 }
