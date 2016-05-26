@@ -35,8 +35,7 @@ class TireSensorController extends Controller
         $inputs = $request->all();
             
         if (!empty($inputs['json'])) {
-
-            if(!empty($inputs['dataIsCompress']) && $inputs['dataIsCompress'] == 1) {
+            if (!empty($inputs['dataIsCompressed']) && $inputs['dataIsCompressed'] == 1) {
                 $inputs['json'] = $this->getZipContent($inputs['json']);
             }
             $jsonData = json_decode($inputs['json'], true);
