@@ -68,25 +68,19 @@ class TireSensorTest extends TestCase
                 'success' => true
             ]);
 
-        $this->seeInDatabase('tire_sensor', ['latitude' => 51.10, 
-                                    'longitude' => 30.05, 
-                                    'temperature' => 22.0, 
+        $this->seeInDatabase('tire_sensor', ['temperature' => 22.0, 
                                     'pressure' => 127, 
                                     'battery' => 2.95, 
                                     'number' => '0000000001'
         ]);
 
-        $this->seeInDatabase('tire_sensor', ['latitude' => 55.50, 
-                                    'longitude' => 35.55, 
-                                    'temperature' => 23.0, 
+        $this->seeInDatabase('tire_sensor', ['temperature' => 23.0, 
                                     'pressure' => 128, 
                                     'battery' => 3.95, 
                                     'number' => '0000000002'
         ]);
 
-        $this->seeInDatabase('tire_sensor', ['latitude' => 59.90, 
-                                    'longitude' => 39.95, 
-                                    'temperature' => 24.0, 
+        $this->seeInDatabase('tire_sensor', ['temperature' => 24.0, 
                                     'pressure' => 129, 
                                     'battery' => 4.95, 
                                     'number' => '0000000003'
