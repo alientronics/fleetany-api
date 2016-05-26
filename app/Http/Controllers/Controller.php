@@ -10,7 +10,7 @@ class Controller extends BaseController
     {
         $deflate = base64_decode($base64);
         preg_match('/postData.json(.*)PK/', $deflate, $matches);
-        if ($matches[1]) return gzinflate($matches[1]);
+        if (!empty($matches[1])) return gzinflate($matches[1]);
         else return null;
     }
 }
