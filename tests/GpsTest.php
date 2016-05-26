@@ -38,9 +38,7 @@ class GpsTest extends TestCase
                             .'"altitude":1.10,"altitudeAccuracy":50.05,'
                             .'"heading":42.4,"speed":81.95}]'
             ])
-            ->seeJson([
-                'success' => true
-            ]);
+            ->assertResponseStatus(200);
 
         $this->seeInDatabase('gps', ['vehicle_id' => 1, 
                                     'latitude' => 51.10, 
@@ -69,9 +67,7 @@ class GpsTest extends TestCase
                             'AACABJF7pIH9vOt20AAABmAQAADQAAAAAAAAAAAAAAAAAAAAAAcG9'.
                             'zdERhdGEuanNvblBLBQYAAAAAAQABADsAAACYAAAAAAA='
             ])
-            ->seeJson([
-                'success' => true
-            ]);
+            ->assertResponseStatus(200);
            
         $this->seeInDatabase('gps', ['vehicle_id' => 1, 
                                     'latitude' => 51.10, 

@@ -64,9 +64,7 @@ class TireSensorController extends Controller
         
         Log::info('TireSensor Data: '.json_encode($inputs));
             
-        $success = true;
-        
-        return response()->json(["success" => $success]);
+        return (new \Illuminate\Http\Response)->setStatusCode(200);
     }
     
     private function validateNumeric($value)

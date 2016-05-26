@@ -58,9 +58,7 @@ class TripTest extends TestCase
                                     'fuel_type' => 2, 
                                     'tank_fill_up' => 0
             ])
-            ->seeJson([
-                'success' => true
-            ]);
+            ->assertResponseStatus(200);
 
         $this->seeInDatabase('trips', ['vehicle_id' => 1, 
                                     'fuel_cost' => 51.10, 

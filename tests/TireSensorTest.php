@@ -36,9 +36,7 @@ class TireSensorTest extends TestCase
                 'json' => '[{"id":"0000000001","pr":127,"tp":22.0,"ba":2.95'
                             .',"latitude":51.10,"longitude":30.05}]'
             ])
-            ->seeJson([
-                'success' => true
-            ]);
+            ->assertResponseStatus(200);
 
         $this->seeInDatabase('tire_sensor', ['latitude' => 51.10, 
                                     'longitude' => 30.05, 
@@ -64,9 +62,7 @@ class TireSensorTest extends TestCase
                             'AACAC7GbpIYgDCpV4AAADxAAAADQAAAAAAAAAAAAAAAAAAAAAAcG9zdERhdGEuan'.
                             'NvblBLBQYAAAAAAQABADsAAACJAAAAAAA='
             ])
-            ->seeJson([
-                'success' => true
-            ]);
+            ->assertResponseStatus(200);
 
         $this->seeInDatabase('tire_sensor', ['temperature' => 22.0, 
                                     'pressure' => 127, 

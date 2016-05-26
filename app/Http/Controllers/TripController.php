@@ -52,15 +52,15 @@ class TripController extends Controller
             $Trip = Trip::forceCreate($inputsCreate);
 
             if (is_numeric($Trip->id)) {
-                $success = true;
+                $statusCode = 200;
             } else {
-                $success = false;
+                $statusCode = 400;
             }
         } catch (\Exception $e) {
             Log::info($e->getMessage());
-            $success = false;
+            $statusCode = 400;
         }
         
-        return response()->json(["success" => $success]);
+        return (new \Illuminate\Http\Response)->setStatusCode($statusCode);
     }
 }

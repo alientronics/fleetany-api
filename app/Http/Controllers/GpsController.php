@@ -59,14 +59,14 @@ class GpsController extends Controller
                 $Gps = Gps::forceCreate($inputsCreate);
                     
                 if (is_numeric($Gps->id)) {
-                    $success = true;
+                    $statusCode = 200;
                 } else {
-                    $success = false;
+                    $statusCode = 400;
                 }
             }
         }
         
-        return response()->json(["success" => $success]);
+        return (new \Illuminate\Http\Response)->setStatusCode($statusCode);
     }
 
     private function validateNumericNullables($gpsData)
