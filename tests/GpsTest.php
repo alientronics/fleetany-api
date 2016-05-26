@@ -62,25 +62,33 @@ class GpsTest extends TestCase
                 'email' => 'admin@alientronics.com.br', 
                 'vehicle_id' => 1, 
                 'dataIsCompressed' => 1, 
-                'json' => 'UEsDBAoAAAAIAEkKukjCUI8tgAAAADUCAAANAAAAcG9zdERhdGEuanNvbouuVkpMTi4'.
-                            'tSkyuVLIysdRRSswpySwpTUlVssorzclB8B3hqiDiGamJKZl56TBuTiJMm66xgZ6Bo'.
-                            'ZmxuZkFUDg/Lx0mbmqoZ2hobGJkYKqjVFyQmpoC0VurQzsnWJhbQoApdqcYmkHlzfA'.
-                            '4ydSAik6yMDExgABjHE6yHPShEwsAUEsBAhQACgAAAAgASQq6SMJQjy2AAAAANQIAA'.
-                            'A0AAAAAAAAAAAAAAAAAAAAAAHBvc3REYXRhLmpzb25QSwUGAAAAAAEAAQA7AAAAqwA'.
-                            'AAAAA'
+                'json' => 'UEsDBAoAAAAIAEkXukgf2863bQAAAGYBAAANAAAAcG9zdERhdGEuanN'.
+                            'vbouuVkpMTi4tSkyuVLIyMdVRSswpySwpTUlVssorzclB8B3hqiDi'.
+                            'GamJKZl56TBuTiJMm6mhnqEBUCA/Lx0qYmygZwA0ubggNTUFor5WB'.
+                            '8VaS2pYa6pnimYtUASftSDllFtrqWeJZi1QBM3aWABQSwECFAAKAA'.
+                            'AACABJF7pIH9vOt20AAABmAQAADQAAAAAAAAAAAAAAAAAAAAAAcG9'.
+                            'zdERhdGEuanNvblBLBQYAAAAAAQABADsAAACYAAAAAAA='
             ])
             ->seeJson([
                 'success' => true
             ]);
-
+           
         $this->seeInDatabase('gps', ['vehicle_id' => 1, 
                                     'latitude' => 51.10, 
                                     'longitude' => 30.05, 
-                                    'accuracy' => 22.0, 
-                                    'altitude' => 1.10, 
-                                    'altitudeAccuracy' => 50.05, 
-                                    'heading' => 42.4, 
-                                    'speed' => 81.95
+                                    'accuracy' => 45
+        ]);  
+        
+        $this->seeInDatabase('gps', ['vehicle_id' => 1, 
+                                    'latitude' => 55.50, 
+                                    'longitude' => 35.55, 
+                                    'accuracy' => 49
+        ]);
+        
+        $this->seeInDatabase('gps', ['vehicle_id' => 1, 
+                                    'latitude' => 59.90, 
+                                    'longitude' => 39.95, 
+                                    'accuracy' => 50
         ]);
     }
 }
