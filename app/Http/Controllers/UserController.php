@@ -40,7 +40,9 @@ class UserController extends Controller
                 'contact_id' => 1,
             ]);
             $user->save();
-            $user->setUp();
+           
+            $lang = !empty($request->input('lang')) ? $request->input('lang') : null;
+            $user->setUp($lang);
         }
 
         $response['vehicles'] = $user->company->vehicles;
