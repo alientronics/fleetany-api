@@ -67,5 +67,13 @@
             "tests/",
             "vendor/alientronics/fleetany-web/database/"
         ]
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "php -r \"copy('vendor/alientronics/fleetany-web/resources/lang/en/setup.php', 'resources/lang/en/setup.php');\"",
+            "php -r \"copy('vendor/alientronics/fleetany-web/resources/lang/pt-br/setup.php', 'resources/lang/pt-br/setup.php');\"",
+            "php artisan clear-compiled",
+            "php artisan optimize"
+        ]
     }
 }
