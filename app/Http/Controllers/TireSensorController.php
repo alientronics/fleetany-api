@@ -8,6 +8,8 @@ use App\Entities\User;
 use App\Entities\TireSensor;
 use App\Entities\Part;
 use Log;
+use App\Entities\Type;
+use App\Entities\Model;
 
 class TireSensorController extends Controller
 {
@@ -47,6 +49,45 @@ class TireSensorController extends Controller
                     $part = Part::select('id')->where('number', $json['id'])
                         ->where('company_id', $user->company_id)
                         ->first();
+                    
+                    if(empty($part)) {
+                       
+                        $tireType = Type::where('company_id', $user->company_id)
+                                        ->where('name', 'tire')
+                                        ->first();
+                       
+                        $tireModel = Model::where('company_id', $user->company_id)
+                                        ->where('model_type_id', $tireType->id)
+                                        ->first();
+                       
+                        $sensorType = Type::where('company_id', $user->company_id)
+                                        ->where('name', 'sensor')
+                                        ->first();
+                       
+                        $sensorModel = Model::where('company_id', $user->company_id)
+                                        ->where('model_type_id', $sensorType->id)
+                                        ->first();
+                        
+                        $partTire = Part::forceCreate([
+                            "company_id" => $user->company_id,
+                            "part_type_id" => $tireType->id,
+                            "part_model_id" => $tireModel->id,
+                            "number" => $json['id']."-tire",
+                            "position" => $this->validateNumeric($json['pos']),
+                            "vehicle_id" => $inputs['vehicle_id']
+                        ]);
+                        
+                        $part = Part::forceCreate([
+                            "company_id" => $user->company_id,
+                            "part_type_id" => $sensorType->id,
+                            "part_model_id" => $sensorModel->id,
+                            "number" => $json['id'],
+                            "position" => $this->validateNumeric($json['pos']),
+                            "vehicle_id" => $inputs['vehicle_id'],
+                            "part_id" => $this->validateNumeric($partTire->id)
+                        ]);
+                        
+                    }
     
                     TireSensor::forceCreate(["latitude" => $this->validateNumeric($json['latitude']),
                         "longitude" => $this->validateNumeric($json['longitude']),
@@ -56,7 +97,8 @@ class TireSensorController extends Controller
                         "temperature" => $this->validateNumeric($json['tp']),
                         "pressure" => $this->validateNumeric($json['pr']),
                         "battery" => $this->validateNumeric($json['ba']),
-                        "part_id" => ( !empty($part->id) ? $part->id : null )
+                        "position" => $this->validateNumeric($json['pos']),
+                        "part_id" => $this->validateNumeric($part->id)
                     ]);
                 }
             }
