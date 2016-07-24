@@ -16,7 +16,7 @@ class TireSensorTest extends TestCase
     public function testTireSensorPostFail()
     {
         $this->post('/api/v1/tiresensor', ['vehicle_id' => 1, 
-                'json' => '[{"id":"0000000001","pr":127,"tp":22.0,"ba":2.95'
+                'json' => '[{"id":"0000000001","pr":127,"pos":2,"tp":22.0,"ba":2.95'
                             .',"latitude":51.10,"longitude":30.05}]'
         ]);
 
@@ -33,7 +33,7 @@ class TireSensorTest extends TestCase
                 'email' => 'admin@alientronics.com.br', 
                 'vehicle_id' => 1, 
                 'dataIsCompressed' => 0,
-                'json' => '[{"id":"0000000001","pr":127,"tp":22.0,"ba":2.95'
+                'json' => '[{"id":"0000000001","pr":127,"pos":2,"tp":22.0,"ba":2.95'
                             .',"latitude":51.10,"longitude":30.05}]'
             ])
             ->assertResponseStatus(200);

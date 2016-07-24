@@ -45,7 +45,7 @@ class TireSensorController extends Controller
             $user = User::where('email', $inputs['email'])->first();
 
             foreach ($jsonData as $json) {
-                if (isset($json['id']) && isset($json['tp']) && isset($json['pr'])) {
+                if (isset($json['id']) && isset($json['tp']) && isset($json['pr']) && isset($json['pos'])) {
                     $part = Part::select('id')->where('number', $json['id'])
                         ->where('company_id', $user->company_id)
                         ->first();
@@ -97,7 +97,6 @@ class TireSensorController extends Controller
                         "temperature" => $this->validateNumeric($json['tp']),
                         "pressure" => $this->validateNumeric($json['pr']),
                         "battery" => $this->validateNumeric($json['ba']),
-                        "position" => $this->validateNumeric($json['pos']),
                         "part_id" => $this->validateNumeric($part->id)
                     ]);
                 }
