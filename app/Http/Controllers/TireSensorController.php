@@ -46,48 +46,7 @@ class TireSensorController extends Controller
 
             foreach ($jsonData as $json) {
                 if (isset($json['id']) && isset($json['tp']) && isset($json['pr']) && isset($json['pos'])) {
-                    $part = Part::select('id')->where('number', $json['id'])
-                        ->where('company_id', $user->company_id)
-                        ->first();
-                    
-                    if(empty($part)) {
-                       
-                        $tireType = Type::where('company_id', $user->company_id)
-                                        ->where('name', 'tire')
-                                        ->first();
-                       
-                        $tireModel = Model::where('company_id', $user->company_id)
-                                        ->where('model_type_id', $tireType->id)
-                                        ->first();
-                       
-                        $sensorType = Type::where('company_id', $user->company_id)
-                                        ->where('name', 'sensor')
-                                        ->first();
-                       
-                        $sensorModel = Model::where('company_id', $user->company_id)
-                                        ->where('model_type_id', $sensorType->id)
-                                        ->first();
-                        
-                        $partTire = Part::forceCreate([
-                            "company_id" => $user->company_id,
-                            "part_type_id" => $tireType->id,
-                            "part_model_id" => $tireModel->id,
-                            "number" => $json['id']."-tire",
-                            "position" => $this->validateNumeric($json['pos']),
-                            "vehicle_id" => $inputs['vehicle_id']
-                        ]);
-                        
-                        $part = Part::forceCreate([
-                            "company_id" => $user->company_id,
-                            "part_type_id" => $sensorType->id,
-                            "part_model_id" => $sensorModel->id,
-                            "number" => $json['id'],
-                            "position" => $this->validateNumeric($json['pos']),
-                            "vehicle_id" => $inputs['vehicle_id'],
-                            "part_id" => $this->validateNumeric($partTire->id)
-                        ]);
-                        
-                    }
+                    $part = $this->getPart($user, $json, $inputs);
     
                     TireSensor::forceCreate(["latitude" => $this->validateNumeric($json['latitude']),
                         "longitude" => $this->validateNumeric($json['longitude']),
@@ -106,6 +65,52 @@ class TireSensorController extends Controller
         Log::info('TireSensor Data: '.json_encode($inputs));
             
         return (new \Illuminate\Http\Response)->setStatusCode(200);
+    }
+    
+    private function getPart($user, $json, $inputs)
+    {
+        $part = Part::select('id')->where('number', $json['id'])
+            ->where('company_id', $user->company_id)
+            ->first();
+        
+        if (empty($part)) {
+            $tireType = Type::where('company_id', $user->company_id)
+                ->where('name', 'tire')
+                ->first();
+             
+            $tireModel = Model::where('company_id', $user->company_id)
+                ->where('model_type_id', $tireType->id)
+                ->first();
+             
+            $sensorType = Type::where('company_id', $user->company_id)
+                ->where('name', 'sensor')
+                ->first();
+             
+            $sensorModel = Model::where('company_id', $user->company_id)
+                ->where('model_type_id', $sensorType->id)
+                ->first();
+            
+            $partTire = Part::forceCreate([
+                "company_id" => $user->company_id,
+                "part_type_id" => $tireType->id,
+                "part_model_id" => $tireModel->id,
+                "number" => $json['id']."-tire",
+                "position" => $this->validateNumeric($json['pos']),
+                "vehicle_id" => $inputs['vehicle_id']
+            ]);
+            
+            $part = Part::forceCreate([
+                "company_id" => $user->company_id,
+                "part_type_id" => $sensorType->id,
+                "part_model_id" => $sensorModel->id,
+                "number" => $json['id'],
+                "position" => $this->validateNumeric($json['pos']),
+                "vehicle_id" => $inputs['vehicle_id'],
+                "part_id" => $this->validateNumeric($partTire->id)
+            ]);
+        }
+        
+        return $part;
     }
     
     private function validateNumeric($value)
