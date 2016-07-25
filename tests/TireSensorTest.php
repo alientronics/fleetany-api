@@ -56,11 +56,11 @@ class TireSensorTest extends TestCase
                 'email' => 'admin@alientronics.com.br', 
                 'vehicle_id' => 1, 
                 'dataIsCompressed' => 1,
-                'json' => 'UEsDBAoAAAAIABMH+UiCCDv3bwAAABUBAAANAAAAcG9zdERhdGEuanNvbp3MsQqEMB'.
-                            'AE0H+ZeglJNkHNrxwWEUUEUfFy1eG/m2JjYSVOM8MuvM8fU48AXWJA2HYEY6s81i'.
-                            '+CJaQtl1Wa0MW8VOMJc0xT+vUDgjfK5Ne8LqNcWCvtD7rb9rJrsVlsLja/tfmyG7'.
-                            'Gd2K7Y7qHdnlBLAQIUAAoAAAAIABMH+UiCCDv3bwAAABUBAAANAAAAAAAAAAAAAA'.
-                            'AAAAAAAABwb3N0RGF0YS5qc29uUEsFBgAAAAABAAEAOwAAAJoAAAAAAA=='
+                'json' => 'UEsDBAoAAAAIAN0L+Ujj/CdFYQAAALkAAAANAAAAcG9zdERhdGEuanNvbouuVspMUb'.
+                            'JSMoABQyUdpYIiJStDI3MgI79YycpIR6mkAEgZ6RnoKCUlAll6lqY6SjmJJZklpS'.
+                            'mpSlamhnqGQKmc/Lx0qIixgZ6Baa0OutlGcLMtoGYbQ802hpltTKTZsQBQSwECFA'.
+                            'AKAAAACADdC/lI4/wnRWEAAAC5AAAADQAAAAAAAAAAAAAAAAAAAAAAcG9zdERhdG'.
+                            'EuanNvblBLBQYAAAAAAQABADsAAACMAAAAAAA='
             ])
             ->assertResponseStatus(200);
 
@@ -74,12 +74,6 @@ class TireSensorTest extends TestCase
                                     'pressure' => 128, 
                                     'battery' => 3.95, 
                                     'number' => '0000000002'
-        ]);
-
-        $this->seeInDatabase('tire_sensor', ['temperature' => 24.0, 
-                                    'pressure' => 129, 
-                                    'battery' => 4.95, 
-                                    'number' => '0000000003'
         ]);
     }
 }
