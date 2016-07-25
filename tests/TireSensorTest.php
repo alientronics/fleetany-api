@@ -56,11 +56,11 @@ class TireSensorTest extends TestCase
                 'email' => 'admin@alientronics.com.br', 
                 'vehicle_id' => 1, 
                 'dataIsCompressed' => 1,
-                'json' => 'UEsDBAoAAAAIAHcF+Ui1qjKoTgAAAF0AAAANAAAAcG9zdERhdGEuanNvbouuVspMUb'.
-                            'JSMoABQyUdpYIiJStDI3MgI79YycpIR6mkAEgZ6RnoKCUlAll6lqY6SjmJJZklpS'.
-                            'mpSlamhnqGQKmc/Lx0qIixgZ6BaW0sAFBLAQIUAAoAAAAIAHcF+Ui1qjKoTgAAAF'.
-                            '0AAAANAAAAAAAAAAAAAAAAAAAAAABwb3N0RGF0YS5qc29uUEsFBgAAAAABAAEAOw'.
-                            'AAAHkAAAAAAA=='
+                'json' => 'UEsDBAoAAAAIABMH+UiCCDv3bwAAABUBAAANAAAAcG9zdERhdGEuanNvbp3MsQqEMB'.
+                            'AE0H+ZeglJNkHNrxwWEUUEUfFy1eG/m2JjYSVOM8MuvM8fU48AXWJA2HYEY6s81i'.
+                            '+CJaQtl1Wa0MW8VOMJc0xT+vUDgjfK5Ne8LqNcWCvtD7rb9rJrsVlsLja/tfmyG7'.
+                            'Gd2K7Y7qHdnlBLAQIUAAoAAAAIABMH+UiCCDv3bwAAABUBAAANAAAAAAAAAAAAAA'.
+                            'AAAAAAAABwb3N0RGF0YS5qc29uUEsFBgAAAAABAAEAOwAAAJoAAAAAAA=='
             ])
             ->assertResponseStatus(200);
 
