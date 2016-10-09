@@ -10,6 +10,7 @@ use App\Entities\Part;
 use Log;
 use App\Entities\Type;
 use App\Entities\Model;
+use App\Http\Controllers\AlertController;
 
 class TireSensorController extends Controller
 {
@@ -48,7 +49,7 @@ class TireSensorController extends Controller
                 if (isset($json['id']) && isset($json['tp']) && isset($json['pr']) && isset($json['pos'])) {
                     $part = $this->getPart($user, $json, $inputs);
     
-                    TireSensor::forceCreate(["latitude" => $this->validateNumeric($json['latitude']),
+                    $tireSensor = TireSensor::forceCreate(["latitude" => $this->validateNumeric($json['latitude']),
                         "longitude" => $this->validateNumeric($json['longitude']),
                         //"created_at" => ( $this->validateDate($json['ts']) ?
                         //    $json['ts'] : \DB::raw('NOW()') ),
@@ -58,6 +59,13 @@ class TireSensorController extends Controller
                         "battery" => $this->validateNumeric($json['ba']),
                         "part_id" => $this->validateNumeric($part->id)
                     ]);
+                    
+                    $objAlerts = new AlertController();
+                    $objAlerts->checkAlerts(
+                        $user->company_id,
+                        $tireSensor,
+                        $inputs['vehicle_id']
+                    );
                 }
             }
         }
