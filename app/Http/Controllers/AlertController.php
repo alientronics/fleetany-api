@@ -18,6 +18,8 @@ class AlertController extends Controller
     {
         $company = Company::where('id', $company_id)
             ->first();
+        
+        $company->delta_pressure = $company->delta_pressure / 100; 
             
         $ideal_pressure = (($tireSensor->temperature - 20) / 5.5556) * 0.02 *
                             $company->ideal_pressure + $company->ideal_pressure;
@@ -65,7 +67,7 @@ class AlertController extends Controller
             
             $gps = Gps::select('gps.*', 'contacts.name as driver_name')
                     ->join('contacts', 'gps.driver_id', '=', 'contacts.id')
-                    ->where('gps.vehicle_id', $company->id)
+                    ->where('gps.vehicle_id', $vehicle_id)
                     ->orderBy('gps.created_at', 'desc')
                     ->first();
                     
