@@ -19,7 +19,7 @@ class AlertController extends Controller
         $company = Company::where('id', $company_id)
             ->first();
         
-        $company->delta_pressure = $company->delta_pressure / 100; 
+        $company->delta_pressure = $company->delta_pressure / 100;
             
         $ideal_pressure = (($tireSensor->temperature - 20) / 5.5556) * 0.02 *
                             $company->ideal_pressure + $company->ideal_pressure;
