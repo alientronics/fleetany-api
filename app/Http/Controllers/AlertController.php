@@ -32,8 +32,8 @@ class AlertController extends Controller
             if (empty($company->alert_date_time) || $company->alert_date_time == '0000-00-00 00:00:00') {
                 $sendMail = true;
             } else {
-                $diffHours = sprintf('%2d', (strtotime(date("Y-m-d H:i:s") -
-                                strtotime($company->alert_date_time)) / 3600));
+                $diffHours = sprintf('%2d', (strtotime(date("Y-m-d H:i:s")) -
+                                strtotime($company->alert_date_time)) / 3600);
                 
                 if ($diffHours >= 12) {
                     $sendMail = true;
@@ -41,7 +41,7 @@ class AlertController extends Controller
             }
             
             if ($sendMail && $this->sendAlertMail($company, $vehicle_id, $tireSensor, $ideal_pressure)) {
-                $company->alert_date_time = null;
+                $company->alert_date_time = date("Y-m-d H:i:s");
                 $company->save();
             }
         } else {
@@ -85,14 +85,18 @@ class AlertController extends Controller
                     $alarm->vehicle_longitude = $gps->longitude;
                     $alarm->vehicle_id = $vehicle->id;
 
-                    Mail::send('mail-alert', ['alarm' => $alarm], function ($m) use ($user, $vehicle) {
-                        $m->from(env('MAIL_SENDER'), 'fleetany sender');
-                
-                        $m->to($user->email, $user->name)->subject(Lang::get('mails.AlertSubject', [
-                            'vehicle_number' => $vehicle->fleet,
-                            'vehicle_plate' => $vehicle->number,
-                        ]));
-                    });
+                    try {
+                        Mail::send('mail-alert', ['alarm' => $alarm], function ($m) use ($user, $vehicle) {
+                            $m->from(env('MAIL_SENDER'), 'fleetany sender');
+                    
+                            $m->to($user->email, $user->name)->subject(Lang::get('mails.AlertSubject'), [
+                                'vehicle_number' => $vehicle->fleet,
+                                'vehicle_plate' => $vehicle->number,
+                            ]);
+                        });
+                    } catch (\Exception $e) {
+                        Log::info($e->getMessage());
+                    }
                 }
             }
         } catch (\Exception $e) {
