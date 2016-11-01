@@ -44,9 +44,6 @@ class AlertController extends Controller
                 $company->alert_date_time = date("Y-m-d H:i:s");
                 $company->save();
             }
-        } else {
-            $company->alert_date_time = null;
-            $company->save();
         }
     }
     
