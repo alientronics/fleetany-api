@@ -26,7 +26,6 @@ class UserController extends Controller
         $Users = User::all();
   
         return response()->json($Users);
-  
     }
 
     public function findOrCreateUser(Request $request)

@@ -24,7 +24,6 @@ class CompanyController extends Controller
         $Companies = Company::all();
   
         return response()->json($Companies);
-  
     }
   
     public function getCompany($idCompany)
@@ -41,7 +40,6 @@ class CompanyController extends Controller
         $Company = Company::create($request->all());
   
         return response()->json($Company);
-  
     }
   
     public function updateCompany(Request $request, $idCompany)

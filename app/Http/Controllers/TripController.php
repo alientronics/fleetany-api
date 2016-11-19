@@ -28,7 +28,6 @@ class TripController extends Controller
         $Trips = Trip::all();
   
         return response()->json($Trips);
-  
     }
   
     public function create(Request $request)

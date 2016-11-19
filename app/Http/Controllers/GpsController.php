@@ -26,7 +26,6 @@ class GpsController extends Controller
         $Gps = Gps::all();
   
         return response()->json($Gps);
-  
     }
   
     public function create(Request $request)

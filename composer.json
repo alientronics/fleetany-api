@@ -42,7 +42,8 @@
         "prettus/laravel-validation": "1.1.*",
         "caouecs/laravel4-lang": "~2.0",
         "fzaninotto/faker": "~1.4",
-        "illuminate/mail": "5.*"
+        "illuminate/mail": "5.*",
+		"guzzlehttp/guzzle": "^6.2"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0",

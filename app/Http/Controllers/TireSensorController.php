@@ -10,7 +10,7 @@ use App\Entities\Part;
 use Log;
 use App\Entities\Type;
 use App\Entities\Model;
-use App\Http\Controllers\AlertController;
+use GuzzleHttp\Client;
 
 class TireSensorController extends Controller
 {
@@ -30,7 +30,6 @@ class TireSensorController extends Controller
         $TireSensor = TireSensor::all();
   
         return response()->json($TireSensor);
-  
     }
   
     public function create(Request $request)
@@ -59,13 +58,8 @@ class TireSensorController extends Controller
                         "battery" => $this->validateNumeric($json['ba']),
                         "part_id" => $this->validateNumeric($part->id)
                     ]);
-                    
-                    $objAlerts = new AlertController();
-                    $objAlerts->checkAlerts(
-                        $user->company_id,
-                        $tireSensor,
-                        $inputs['vehicle_id']
-                    );
+
+                    $this->checkAlerts($user->company_id, $tireSensor->id, $inputs['vehicle_id']);
                 }
             }
         }
@@ -73,6 +67,22 @@ class TireSensorController extends Controller
         Log::info('TireSensor Data: '.json_encode($inputs));
             
         return (new \Illuminate\Http\Response)->setStatusCode(200);
+    }
+    
+    private function checkAlerts($company_id, $tiresensor_id, $vehicle_id)
+    {
+        try {
+            $client = new Client();
+            $client->request('POST', env('ALERTS_API_URL').'/api/v1/alert'.
+                '?api_token=' . env('ALERTS_API_KEY'), [
+                    'form_params' => ["company_id" => $company_id,
+                        "tiresensor_id" => $tiresensor_id,
+                        "vehicle_id" => $vehicle_id
+                    ]
+                ]);
+        } catch (\Exception $e) {
+            Log::info('TireSensor Alert Fail: '.$e->getMessage());
+        }
     }
     
     private function getPart($user, $json, $inputs)
