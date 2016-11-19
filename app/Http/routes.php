@@ -40,5 +40,4 @@ $app->group([
         $app->post('gps', 'GpsController@create');
 
         $app->post('tiresensor', 'TireSensorController@create');
-
     });
