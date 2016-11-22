@@ -6,7 +6,7 @@ use App\Company;
 use App\Http\Controllers\Controller;
 use App\Entities\Type;
 use App\Entities\TireSensor;
-use Lang;
+use Illuminate\Support\Facades\Lang;
 use App\Entities\User;
 use App\Entities\Entry;
 use App\Entities\Part;

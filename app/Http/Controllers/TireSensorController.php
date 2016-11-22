@@ -59,7 +59,7 @@ class TireSensorController extends Controller
                     ]);
 
                     $objTireCondition = new TireConditionController();
-                    $objTireCondition->checkTireCondition($user, $tireSensor, $inputs['vehicle_id']);
+                    $objTireCondition->checkTireCondition($user->company_id, $tireSensor->id, $inputs['vehicle_id']);
                 }
             }
         }
