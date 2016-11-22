@@ -8,11 +8,11 @@ use App\Entities\User;
 use App\Entities\TireSensor;
 use App\Entities\Part;
 use Log;
-use Illuminate\Support\Facades\Lang;
 use App\Entities\Type;
 use App\Entities\Model;
 use GuzzleHttp\Client;
 use App\Entities\Entry;
+use App\Entities\PartEntry;
 
 class TireSensorController extends Controller
 {
@@ -85,18 +85,22 @@ class TireSensorController extends Controller
             if (!empty($objAlert->id) && ($objAlert->id == 'HighPressure' || $objAlert->id == 'LowPressure')) {
                 $entry_type = Type::select('id')->where('company_id', $company_id)
                     ->where(function ($query) {
-                        $query->where('name', Lang::get('setup.repair'))
-                            ->orWhere('name', 'repair')
+                        $query->where('name', 'repair')
                             ->orWhere('name', 'reparo');
                     })
                     ->first();
                 
                 if (!empty($entry_type)) {
-                    Entry::forceCreate([
+                    $entry = Entry::forceCreate([
                         "company_id" => $company_id,
                         "entry_type_id" => $entry_type->id,
                         "datetime_ini" => date("Y-m-d H:i:s"),
                         "cost" => 1,
+                    ]);
+                    
+                    PartEntry::forceCreate([
+                        "part_id" => $tireSensor->part_id,
+                        "entry_id" => $entry->id,
                     ]);
                 }
             }
