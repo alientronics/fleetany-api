@@ -85,8 +85,8 @@ class TireSensorController extends Controller
             if (!empty($objAlert->id) && ($objAlert->id == 'HighPressure' || $objAlert->id == 'LowPressure')) {
                 $entry_type = Type::select('id')->where('company_id', $company_id)
                     ->where(function ($query) {
-                        $query->where('name', 'repair')
-                            ->orWhere('name', 'reparo');
+                        $query->where('name', 'calibration maintenance')
+                            ->orWhere('name', 'manuten&ccedil;&atilde;o de calibragem');
                     })
                     ->first();
                 
