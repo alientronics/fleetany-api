@@ -98,10 +98,14 @@ class TireSensorController extends Controller
                         "cost" => 1,
                     ]);
                     
-                    PartEntry::forceCreate([
-                        "part_id" => $tireSensor->part_id,
-                        "entry_id" => $entry->id,
-                    ]);
+                    $part = Part::find($tireSensor->part_id);
+                    
+                    if(!empty($part->part_id)) {
+                        PartEntry::forceCreate([
+                            "part_id" => $part->part_id,
+                            "entry_id" => $entry->id,
+                        ]);
+                    }
                 }
             }
         }
