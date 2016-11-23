@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Lang;
 use App\Entities\Vehicle;
 use App\Entities\Gps;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
 
 class AlertController extends Controller
 {
