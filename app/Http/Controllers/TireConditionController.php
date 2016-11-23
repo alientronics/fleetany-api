@@ -27,18 +27,6 @@ class TireConditionController extends Controller
             ($tireSensor->pressure > (((1 + $company->delta_pressure) * $ideal_pressure) + 1.5)) ||
             $tireSensor->temperature > $company->limit_temperature) { // 1,5 is the sensor accuracy
     
-                $sendMail = false;
-            if (empty($company->alert_date_time) || $company->alert_date_time == '0000-00-00 00:00:00') {
-                $sendMail = true;
-            } else {
-                $diffHours = sprintf('%2d', (strtotime(date("Y-m-d H:i:s")) -
-                strtotime($company->alert_date_time)) / 3600);
-    
-                if ($diffHours >= 12) {
-                    $sendMail = true;
-                }
-            }
-            
             $users = User::select('users.*')
                 ->join('role_user', 'role_user.user_id', '=', 'users.id')
                 ->where('users.company_id', $company->id)
@@ -46,7 +34,7 @@ class TireConditionController extends Controller
                 ->get();
     
             $objAlert = new AlertController();
-            if ($sendMail && $objAlert->sendAlertTireMail(
+            if ($objAlert->sendAlertTireMail(
                 $company,
                 $vehicle_id,
                 $tireSensor,
@@ -66,15 +54,15 @@ class TireConditionController extends Controller
         if ((((1 - $company->delta_pressure) * $ideal_pressure) - 1.5) > $tireSensor->pressure) {
             $alertType['type'] = Lang::get('mails.Pressure');
             $alertType['description'] = Lang::get('mails.LowPressure');
-            $alertType['id'] = 'LowPressure';
+            $alertType['id'] = 'Low Pressure';
         } elseif ($tireSensor->pressure > (((1 + $company->delta_pressure) * $ideal_pressure) + 1.5)) {
             $alertType['type'] = Lang::get('mails.Pressure');
             $alertType['description'] = Lang::get('mails.HighPressure');
-            $alertType['id'] = 'HighPressure';
+            $alertType['id'] = 'High Pressure';
         } elseif ($tireSensor->temperature > $company->limit_temperature) {
             $alertType['type'] = Lang::get('mails.Temperature');
             $alertType['description'] = Lang::get('mails.HighTemperature');
-            $alertType['id'] = 'HighTemperature';
+            $alertType['id'] = 'High Temperature';
         }
     
         return $alertType;
@@ -89,11 +77,11 @@ class TireConditionController extends Controller
     private function hasPressureIssue($company, $tireSensor, $ideal_pressure)
     {
         $alertType = $this->getAlertType($company, $tireSensor, $ideal_pressure);
-        if (empty($alertType->id) ||
-            ($alertType->id != 'HighPressure' && $alertType->id != 'LowPressure')) {
-            return true;
+        if (empty($alertType['id']) ||
+            ($alertType['id'] != 'High Pressure' && $alertType['id'] != 'Low Pressure')) {
+            return false;
         }
-        return false;
+        return true;
     }
 
     private function generateEntry($company, $tireSensor, $ideal_pressure)
