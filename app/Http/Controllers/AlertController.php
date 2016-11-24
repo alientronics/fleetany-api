@@ -55,6 +55,7 @@ class AlertController extends Controller
                     $client->request('POST', env('ALERTS_API_URL').'/api/v1/alert'.
                         '?api_token=' . env('ALERTS_API_KEY'), [
                             'form_params' => ["emails" => json_encode($emails),
+                                "company_id" => $company->id,
                                 "names" => json_encode($names),
                                 "subject" => Lang::get('mails.AlertSubject'),
                                 "subject_params" => json_encode([
