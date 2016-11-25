@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Entities\User;
 use App\Entities\TireSensor;
 use App\Entities\Part;
-use Log;
+use Illuminate\Support\Facades\Log;
 use App\Entities\Type;
 use App\Entities\Model;
 
@@ -58,12 +58,7 @@ class TireSensorController extends Controller
                         "part_id" => $this->validateNumeric($part->id)
                     ]);
 
-                    try {
-                        $objTireCondition = new TireConditionController();
-                        $objTireCondition->checkTireCondition($user->company_id, $tireSensor->id, $inputs['vehicle_id']);
-                    } catch (\Exception $e) {
-                        Log::info('Alert Error: '.$e->getMessage());
-                    }
+                    $this->checkTireCondition($user, $tireSensor, $inputs);
                 }
             }
         }
@@ -71,6 +66,20 @@ class TireSensorController extends Controller
         Log::info('TireSensor Data: '.json_encode($inputs));
             
         return (new \Illuminate\Http\Response)->setStatusCode(200);
+    }
+    
+    private function checkTireCondition($user, $tireSensor, $inputs)
+    {
+        try {
+            $objTireCondition = new TireConditionController();
+            $objTireCondition->checkTireCondition(
+                $user->company_id,
+                $tireSensor->id,
+                $inputs['vehicle_id']
+            );
+        } catch (\Exception $e) {
+            Log::info('Alert Error: '.$e->getMessage());
+        }
     }
     
     private function getPart($user, $json, $inputs)
