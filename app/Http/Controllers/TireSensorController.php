@@ -68,7 +68,7 @@ class TireSensorController extends Controller
         return (new \Illuminate\Http\Response)->setStatusCode(200);
     }
     
-    private function checkTireCondition($user, $tireSensor, $inputs)
+    public function checkTireCondition($user, $tireSensor, $inputs)
     {
         try {
             $objTireCondition = new TireConditionController();
