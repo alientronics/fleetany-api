@@ -52,7 +52,8 @@
         "phploc/phploc": "*",
         "sebastian/phpcpd": "*",
         "phpmd/phpmd": "*",
-        "codeclimate/php-test-reporter": "dev-master"
+        "codeclimate/php-test-reporter": "dev-master",
+		"mockery/mockery": "0.9.*"
     },
     "autoload": {
         "psr-4": {
