@@ -58,8 +58,12 @@ class TireSensorController extends Controller
                         "part_id" => $this->validateNumeric($part->id)
                     ]);
 
-                    $objTireCondition = new TireConditionController();
-                    $objTireCondition->checkTireCondition($user->company_id, $tireSensor->id, $inputs['vehicle_id']);
+                    try {
+                        $objTireCondition = new TireConditionController();
+                        $objTireCondition->checkTireCondition($user->company_id, $tireSensor->id, $inputs['vehicle_id']);
+                    } catch (\Exception $e) {
+                        Log::info('Alert Error: '.$e->getMessage());
+                    }
                 }
             }
         }
