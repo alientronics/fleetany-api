@@ -45,7 +45,8 @@ class TireSensorTest extends TestCase
                 'json' => '[{"id":"0000000001","pr":127,"pos":2,"tp":22.0,"ba":2.95'
                             .',"latitude":51.10,"longitude":30.05}]'
             ])
-            ->seeJsonEquals([]);
+            ->assertResponseStatus(200);
+        echo $this->response->getContent();
 
         $this->seeInDatabase('tire_sensor', ['latitude' => 51.10, 
                                     'longitude' => 30.05, 
