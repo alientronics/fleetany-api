@@ -33,12 +33,14 @@ $factory->define(App\Entities\Vehicle::class, function ($faker) {
     return [
         'fleet' => $faker->name,
         'number' => $faker->randomDigit,
+        'company_id' => 1,
     ];
 });
 
 $factory->define(App\Entities\Part::class, function ($faker) {
     return [
         'name' => $faker->name,
+        'company_id' => 1,
     ];
 });
 
@@ -46,6 +48,7 @@ $factory->define(App\Entities\Gps::class, function ($faker) {
     return [
         'latitude' => $faker->name,
         'longitude' => $faker->name,
+        'company_id' => 1,
     ];
 });
 
