@@ -5,11 +5,6 @@ use App\Entities\TireSensor;
 
 class TireSensorTest extends TestCase
 {
-    public static function setUpBeforeClass() {
-        parent::setUpBeforeClass();
-        spl_autoload_call('App\Http\Controllers\TireSensorController');
-    }
-    
     private function setEloquentMock($method, $return)
     {
         $mockRepo = \Mockery::mock('App\Http\Controllers\TireSensorController');

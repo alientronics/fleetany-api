@@ -32,9 +32,6 @@ $factory->define(App\Entities\User::class, function ($faker) {
 $factory->define(App\Entities\Vehicle::class, function ($faker) {
     return [
         'fleet' => $faker->name,
-        'plate' => $faker->name,
-        'driver_name' => $faker->name,
-        'position' => $faker->randomDigit,
         'number' => $faker->randomDigit,
     ];
 });
