@@ -31,7 +31,6 @@ $factory->define(App\Entities\User::class, function ($faker) {
 
 $factory->define(App\Entities\Vehicle::class, function ($faker) {
     return [
-        'name' => $faker->name,
         'fleet' => $faker->name,
         'plate' => $faker->name,
         'driver_name' => $faker->name,
