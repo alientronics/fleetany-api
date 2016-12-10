@@ -33,6 +33,7 @@ $factory->define(App\Entities\Vehicle::class, function ($faker) {
     return [
         'fleet' => $faker->name,
         'number' => $faker->randomDigit,
+        'model_vehicle_id' => 1,
         'company_id' => 1,
     ];
 });
