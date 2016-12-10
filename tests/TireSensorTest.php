@@ -7,9 +7,9 @@ class TireSensorTest extends TestCase
 {
     private function setEloquentMock($method, $return)
     {
-        $mockRepo = \Mockery::mock('App\Http\Controllers\TireSensorController');
+        $mockRepo = \Mockery::mock('App\Http\Controllers\TireConditionController');
         $mockRepo->shouldReceive($method)->andReturn($return);
-        $this->app->instance('App\Http\Controllers\TireSensorController', $mockRepo);
+        $this->app->instance('App\Http\Controllers\TireConditionController', $mockRepo);
     }
     
     public function testTireSensorDeleteFail()
@@ -36,7 +36,7 @@ class TireSensorTest extends TestCase
     {
         $company = factory('App\Company')->create();
 
-        $this->setEloquentMock('checkTireCondition', true);
+        //$this->setEloquentMock('checkTireCondition', true);
         $this->actingAs($company)
             ->post('/api/v1/tiresensor', ['api_token' => env('APP_TOKEN'), 
                 'email' => 'admin@alientronics.com.br', 
