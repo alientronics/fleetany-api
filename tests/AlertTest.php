@@ -14,10 +14,10 @@ class AlertTest extends TestCase
         $user = factory('App\Entities\User')->create();
         
         $objAlertController = new AlertController();
-        $return = $objAlertController->sendAlertTireMail($company, $vehicle->id, 
+        $objAlertController->sendAlertTireMail($company, $vehicle->id, 
             $tireSensor, 100, [$user]);
 
-        $this->assertEquals($return, true);
+        $this->assertEquals($this->response->status(), 200);
         
     }
 }
