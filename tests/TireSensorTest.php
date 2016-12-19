@@ -2,6 +2,7 @@
 
 use Laravel\Lumen\Testing\DatabaseTransactions;
 use App\Entities\TireSensor;
+use App\Entities\Type;
 
 class TireSensorTest extends TestCase
 {
@@ -54,6 +55,41 @@ class TireSensorTest extends TestCase
                                     'pressure' => 127, 
                                     'battery' => 2.95, 
                                     'number' => '0000000001'
+        ]);
+    }
+
+    public function testTireSensorGenerateEntry()
+    {
+        $company = factory('App\Company')->create();
+
+        $this->actingAs($company)
+            ->post('/api/v1/tiresensor', ['api_token' => env('APP_TOKEN'), 
+                'email' => 'admin@alientronics.com.br', 
+                'vehicle_id' => 1, 
+                'dataIsCompressed' => 0,
+                'json' => '[{"id":"0000000001","pr":127,"pos":2,"tp":22.0,"ba":2.95'
+                            .',"latitude":51.10,"longitude":30.05}]'
+            ]);
+            
+
+        $this->actingAs($company)
+            ->post('/api/v1/tiresensor', ['api_token' => env('APP_TOKEN'),
+                'email' => 'admin@alientronics.com.br',
+                'vehicle_id' => 1,
+                'dataIsCompressed' => 0,
+                'json' => '[{"id":"0000000001","pr":100,"pos":2,"tp":22.0,"ba":2.95'
+                .',"latitude":51.10,"longitude":30.05}]'
+            ]);            
+
+        $entry_type = Type::select('id')->where('company_id', $company->id)
+            ->where(function ($query) {
+                $query->where('name', 'calibration maintenance')
+                ->orWhere('name', 'manuten&ccedil;&atilde;o de calibragem');
+            })
+            ->first();
+            
+        $this->seeInDatabase('entries', ['company_id' => $company->id, 
+                                    "entry_type_id" => $entry_type->id,
         ]);
     }
 
