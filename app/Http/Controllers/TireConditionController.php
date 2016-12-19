@@ -16,36 +16,40 @@ class TireConditionController extends Controller
 {
     public function checkTireCondition($company_id, $tiresensor_id, $vehicle_id)
     {
-        $tireSensor = TireSensor::find($tiresensor_id);
-        $company = Company::where('id', $company_id)->first();
-    
-        $company->delta_pressure = $company->delta_pressure / 100;
-    
-        $ideal_pressure = $this->calculateIdealPressure($tireSensor, $company);
-    
-        if (((((1 - $company->delta_pressure) * $ideal_pressure) - 1.5) > $tireSensor->pressure) ||
-            ($tireSensor->pressure > (((1 + $company->delta_pressure) * $ideal_pressure) + 1.5)) ||
-            $tireSensor->temperature > $company->limit_temperature) { // 1,5 is the sensor accuracy
-    
-            $users = User::select('users.*')
-                ->join('role_user', 'role_user.user_id', '=', 'users.id')
-                ->where('users.company_id', $company->id)
-                ->where('role_user.role_id', 1)
-                ->get();
-    
-            $objAlert = new AlertController();
-            if ($objAlert->sendAlertTireMail(
-                $company,
-                $vehicle_id,
-                $tireSensor,
-                $ideal_pressure,
-                $users
-            )) {
-                $company->alert_date_time = date("Y-m-d H:i:s");
-                $company->save();
+        try {
+            $tireSensor = TireSensor::find($tiresensor_id);
+            $company = Company::where('id', $company_id)->first();
+        
+            $company->delta_pressure = $company->delta_pressure / 100;
+        
+            $ideal_pressure = $this->calculateIdealPressure($tireSensor, $company);
+        
+            if (((((1 - $company->delta_pressure) * $ideal_pressure) - 1.5) > $tireSensor->pressure) ||
+                ($tireSensor->pressure > (((1 + $company->delta_pressure) * $ideal_pressure) + 1.5)) ||
+                $tireSensor->temperature > $company->limit_temperature) { // 1,5 is the sensor accuracy
+        
+                $users = User::select('users.*')
+                    ->join('role_user', 'role_user.user_id', '=', 'users.id')
+                    ->where('users.company_id', $company->id)
+                    ->where('role_user.role_id', 1)
+                    ->get();
+        
+                $objAlert = new AlertController();
+                if ($objAlert->sendAlertTireMail(
+                    $company,
+                    $vehicle_id,
+                    $tireSensor,
+                    $ideal_pressure,
+                    $users
+                )) {
+                    $company->alert_date_time = date("Y-m-d H:i:s");
+                    $company->save();
+                }
             }
+            $this->generateEntry($company, $tireSensor, $ideal_pressure);
+        } catch (\Exception $e) {
+            echo $e->getMessage();
         }
-        $this->generateEntry($company, $tireSensor, $ideal_pressure);
     }
     
     public function getAlertType($company, $tireSensor, $ideal_pressure)
