@@ -85,7 +85,6 @@ class TireSensorController extends Controller
     private function getPart($user, $json, $inputs)
     {
         $part = Part::select('id')->where('number', $json['id'])
-            ->where('company_id', $user->company_id)
             ->first();
         
         if (empty($part)) {
