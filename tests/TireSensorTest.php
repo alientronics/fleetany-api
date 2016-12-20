@@ -74,7 +74,7 @@ class TireSensorTest extends TestCase
         $tireSensorLast = factory('App\Entities\TireSensor')->create([
             'pressure' => 227,
             'temperature' => 60,
-            'part_id' => 8,
+            'part_id' => $partLast->id,
             'number' => '0000000001',
         ]);
         
