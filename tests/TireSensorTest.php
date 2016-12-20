@@ -62,9 +62,6 @@ class TireSensorTest extends TestCase
     public function testTireSensorGenerateEntry()
     {
         $company = factory('App\Company')->create();
-        $entry_type = factory('App\Entities\Type')->create([
-            'company_id' => 1
-        ]);
 
         $this->actingAs($company)
             ->post('/api/v1/tiresensor', ['api_token' => env('APP_TOKEN'), 
@@ -89,7 +86,7 @@ class TireSensorTest extends TestCase
         echo $entry->company_id . " - " . $entry->entry_type_id;
             
         $this->seeInDatabase('entries', ['company_id' => $company->id, 
-                                    "entry_type_id" => $entry_type->id,
+                                    "entry_type_id" => $entry->entry_type_id,
         ]);
     }
 
