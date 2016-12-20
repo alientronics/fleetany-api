@@ -89,6 +89,10 @@ class TireConditionController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->first();
             
+if($tireSensor->part_id == 8) {
+    var_dump($tireSensor);
+}
+                
             if (!empty($tireSensor->id)) {
                 if ($this->hasPressureIssue($company, $tireSensor, $ideal_pressure)) {
                     $entry_type = Type::select('id')->where('company_id', $company->id)
