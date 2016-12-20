@@ -68,7 +68,7 @@ class TireSensorTest extends TestCase
                 'email' => 'admin@alientronics.com.br',
                 'vehicle_id' => 1,
                 'dataIsCompressed' => 0,
-                'json' => '[{"id":"0000000001","pr":100,"pos":2,"tp":122.0,"ba":2.95'
+                'json' => '[{"id":"0000000001","pr":125,"pos":2,"tp":122.0,"ba":2.95'
                 .',"latitude":51.10,"longitude":30.05}]'
             ]);            
 
