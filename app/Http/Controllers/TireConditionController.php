@@ -84,15 +84,11 @@ class TireConditionController extends Controller
     private function generateEntry($company, $tireSensor, $ideal_pressure)
     {
         if (!$this->hasPressureIssue($company, $tireSensor, $ideal_pressure)) {
-
-    var_dump($tireSensor->part_id);
             $tireSensor = TireSensor::where('part_id', $tireSensor->part_id)
                 ->where('created_at', '<', $tireSensor->created_at)
                 ->orderBy('created_at', 'desc')
                 ->first();
             
-    var_dump("aqui".$tireSensor);
-                
             if (!empty($tireSensor->id)) {
                 if ($this->hasPressureIssue($company, $tireSensor, $ideal_pressure)) {
                     $entry_type = Type::select('id')->where('company_id', $company->id)
