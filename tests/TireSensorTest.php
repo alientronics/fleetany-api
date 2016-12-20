@@ -82,8 +82,6 @@ class TireSensorTest extends TestCase
                 .',"latitude":51.10,"longitude":30.05}]'
             ]);            
 
-        $this->seeInDatabase('entries', ['company_id' => $company->id, 
-        ]);
     }
 
     public function testTireSensorPostSuccessDataIsCompressed()
