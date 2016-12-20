@@ -75,6 +75,7 @@ class TireSensorTest extends TestCase
             'temperature' => 60,
             'part_id' => $partLast->id,
             'number' => '0000000001',
+            'created_at' => "1990-01-01 00:00:00",
         ]);
         
         $this->actingAs($company)

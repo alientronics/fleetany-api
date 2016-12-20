@@ -56,6 +56,7 @@ $factory->define(App\Entities\TireSensor::class, function ($faker) {
     return [
         'pressure' => 127,
         'temperature' => 60,
+        'created_at' => "1990-01-01 00:00:00",
     ];
 });
 
