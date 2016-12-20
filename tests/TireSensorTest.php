@@ -68,10 +68,29 @@ class TireSensorTest extends TestCase
                 'email' => 'admin@alientronics.com.br',
                 'vehicle_id' => 1,
                 'dataIsCompressed' => 0,
+                'json' => '[{"id":"0000000001","pr":225,"pos":2,"tp":122.0,"ba":2.95'
+                .',"latitude":51.10,"longitude":30.05}]'
+            ]);     
+        
+        $this->actingAs($company)
+            ->post('/api/v1/tiresensor', ['api_token' => env('APP_TOKEN'),
+                'email' => 'admin@alientronics.com.br',
+                'vehicle_id' => 1,
+                'dataIsCompressed' => 0,
                 'json' => '[{"id":"0000000001","pr":125,"pos":2,"tp":122.0,"ba":2.95'
                 .',"latitude":51.10,"longitude":30.05}]'
-            ]);            
+            ]); 
+            
+        $entry_type = Type::select('id')->where('company_id', 1)
+            ->where(function ($query) {
+                $query->where('name', 'calibration maintenance')
+                ->orWhere('name', 'manuten&ccedil;&atilde;o de calibragem');
+            })
+            ->first();
 
+        $this->seeInDatabase('entries', ['company_id' => 1, 
+                                    'entry_type_id' => $entry_type->id
+        ]);
     }
 
     public function testTireSensorPostSuccessDataIsCompressed()
