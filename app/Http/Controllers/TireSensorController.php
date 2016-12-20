@@ -124,7 +124,7 @@ class TireSensorController extends Controller
                 "part_id" => $this->validateNumeric($partTire->id)
             ]);
         }
-        
+     var_dump($part);   
         return $part;
     }
     
