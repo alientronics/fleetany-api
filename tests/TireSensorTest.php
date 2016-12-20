@@ -3,7 +3,6 @@
 use Laravel\Lumen\Testing\DatabaseTransactions;
 use App\Entities\TireSensor;
 use App\Entities\Type;
-use App\Entities\Entry;
 
 class TireSensorTest extends TestCase
 {
@@ -83,19 +82,7 @@ class TireSensorTest extends TestCase
                 .',"latitude":51.10,"longitude":30.05}]'
             ]);            
 
-        $entry_type_teste = Type::select('id')->where('company_id', 1)
-            ->where(function ($query) {
-                $query->where('name', 'calibration maintenance')
-                ->orWhere('name', 'manuten&ccedil;&atilde;o de calibragem');
-            })
-            ->first();
-        echo $entry_type_teste->id;
-            
-        $entry = Entry::orderBy('id', 'desc')->first();   
-        echo $entry->company_id . " - " . $entry->entry_type_id;
-            
         $this->seeInDatabase('entries', ['company_id' => $company->id, 
-                                    "entry_type_id" => $entry->entry_type_id,
         ]);
     }
 
