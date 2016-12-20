@@ -85,17 +85,13 @@ class TireConditionController extends Controller
     {
         if (!$this->hasPressureIssue($company, $tireSensor, $ideal_pressure)) {
 
-if($tireSensor->part_id == 8) {
     var_dump($tireSensor);
-}
             $tireSensor = TireSensor::where('part_id', $tireSensor->part_id)
                 ->where('created_at', '<', $tireSensor->created_at)
                 ->orderBy('created_at', 'desc')
                 ->first();
             
-if($tireSensor->part_id == 8) {
-    var_dump($tireSensor);
-}
+    var_dump("aqui".$tireSensor);
                 
             if (!empty($tireSensor->id)) {
                 if ($this->hasPressureIssue($company, $tireSensor, $ideal_pressure)) {
