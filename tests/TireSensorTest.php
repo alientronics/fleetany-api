@@ -84,8 +84,16 @@ class TireSensorTest extends TestCase
                 .',"latitude":51.10,"longitude":30.05}]'
             ]);            
 
+        $entry_type = Type::select('id')->where('company_id', $company->id)
+            ->where(function ($query) {
+                $query->where('name', 'calibration maintenance')
+                ->orWhere('name', 'manuten&ccedil;&atilde;o de calibragem');
+            })
+            ->first();
+            
+            echo $entry_type->id;
+            
         $this->seeInDatabase('entries', ['company_id' => $company->id, 
-                                    "entry_type_id" => $entry_type->id,
         ]);
     }
 
