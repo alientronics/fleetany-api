@@ -57,7 +57,7 @@ class TireSensorController extends Controller
                         "battery" => $this->validateNumeric($json['ba']),
                         "part_id" => $this->validateNumeric($part->id)
                     ]);
-
+var_dump($tireSensor->part_id);
                     $this->checkTireCondition($user, $tireSensor, $inputs);
                 }
             }
@@ -124,7 +124,7 @@ class TireSensorController extends Controller
                 "part_id" => $this->validateNumeric($partTire->id)
             ]);
         }
-     var_dump($part);   
+        
         return $part;
     }
     
