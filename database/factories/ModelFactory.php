@@ -58,11 +58,3 @@ $factory->define(App\Entities\TireSensor::class, function ($faker) {
         'temperature' => 60,
     ];
 });
-
-$factory->define(App\Entities\Type::class, function ($faker) {
-    return [
-        'entity_key' => 'entry',
-        'company_id' => 1,
-        'name' => 'calibration maintenance',
-    ];
-});
