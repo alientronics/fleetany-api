@@ -3,6 +3,7 @@
 use Laravel\Lumen\Testing\DatabaseTransactions;
 use App\Entities\TireSensor;
 use App\Entities\Type;
+use App\Entities\Entry;
 
 class TireSensorTest extends TestCase
 {
@@ -61,6 +62,9 @@ class TireSensorTest extends TestCase
     public function testTireSensorGenerateEntry()
     {
         $company = factory('App\Company')->create();
+        $entry_type = factory('App\Entities\Type')->create([
+            'company_id' => 1
+        ]);
 
         $this->actingAs($company)
             ->post('/api/v1/tiresensor', ['api_token' => env('APP_TOKEN'), 
@@ -79,16 +83,12 @@ class TireSensorTest extends TestCase
                 'dataIsCompressed' => 0,
                 'json' => '[{"id":"0000000001","pr":100,"pos":2,"tp":122.0,"ba":2.95'
                 .',"latitude":51.10,"longitude":30.05}]'
-            ]);    
+            ]);            
+
+        $entry = Entry::orderBy('id', 'desc')->first();   
+        echo $entry->company_id . " - " . $entry->entry_type_id;
             
-        $entry_type = Type::select('id')->where('company_id', 1)
-            ->where(function ($query) {
-                $query->where('name', 'calibration maintenance')
-                ->orWhere('name', 'manuten&ccedil;&atilde;o de calibragem');
-            })
-            ->first();
-            
-        $this->seeInDatabase('entries', ['company_id' => 1, 
+        $this->seeInDatabase('entries', ['company_id' => $company->id, 
                                     "entry_type_id" => $entry_type->id,
         ]);
     }
