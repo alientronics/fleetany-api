@@ -62,7 +62,8 @@ class TireSensorTest extends TestCase
     public function testTireSensorGenerateEntry()
     {
         $company = factory('App\Company')->create();
-
+        $entry_type = factory('App\Entities\Type')->create();
+        
         $this->actingAs($company)
             ->post('/api/v1/tiresensor', ['api_token' => env('APP_TOKEN'), 
                 'email' => 'admin@alientronics.com.br', 
@@ -82,6 +83,14 @@ class TireSensorTest extends TestCase
                 .',"latitude":51.10,"longitude":30.05}]'
             ]);            
 
+        $entry_type_teste = Type::select('id')->where('company_id', 1)
+            ->where(function ($query) {
+                $query->where('name', 'calibration maintenance')
+                ->orWhere('name', 'manuten&ccedil;&atilde;o de calibragem');
+            })
+            ->first();
+        echo $entry_type_teste->id;
+            
         $entry = Entry::orderBy('id', 'desc')->first();   
         echo $entry->company_id . " - " . $entry->entry_type_id;
             
