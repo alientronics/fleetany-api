@@ -73,9 +73,9 @@ class TireConditionController extends Controller
     
     private function hasPressureIssue($company, $tireSensor, $ideal_pressure)
     {
-        print_r($company,1);
-        print_r($tireSensor,1);
-        print_r($ideal_pressure,1);
+        var_dump($company);
+        var_dump($tireSensor);
+        var_dump($ideal_pressure);
         $alertType = $this->getAlertType($company, $tireSensor, $ideal_pressure);
         if (empty($alertType['id']) ||
             ($alertType['id'] != 'High Pressure' && $alertType['id'] != 'Low Pressure')) {
