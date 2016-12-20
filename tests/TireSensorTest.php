@@ -61,7 +61,9 @@ class TireSensorTest extends TestCase
     public function testTireSensorGenerateEntry()
     {
         $company = factory('App\Company')->create();
-        $entry_type = factory('App\Entities\Type')->create();
+        $entry_type = factory('App\Entities\Type')->create([
+            'company_id' => $company->id
+        ]);
 
         $this->actingAs($company)
             ->post('/api/v1/tiresensor', ['api_token' => env('APP_TOKEN'), 
@@ -78,7 +80,7 @@ class TireSensorTest extends TestCase
                 'email' => 'admin@alientronics.com.br',
                 'vehicle_id' => 1,
                 'dataIsCompressed' => 0,
-                'json' => '[{"id":"0000000001","pr":100,"pos":2,"tp":22.0,"ba":2.95'
+                'json' => '[{"id":"0000000001","pr":100,"pos":2,"tp":122.0,"ba":2.95'
                 .',"latitude":51.10,"longitude":30.05}]'
             ]);            
 
