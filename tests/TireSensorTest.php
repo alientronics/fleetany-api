@@ -70,7 +70,7 @@ class TireSensorTest extends TestCase
             "part_model_id" => $model->id,
             "number" => '0000000001',
         ]);
-        
+echo "aqui".$partLast->id;        
         $tireSensorLast = factory('App\Entities\TireSensor')->create([
             'pressure' => 227,
             'temperature' => 60,
